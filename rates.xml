@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rates>
+  <item>
+    <from>BTC</from>
+    <to>Dogecoin</to>
+    <in>1</in>
+    <out>3</out>
+    <amount>572962.42</amount>
+    <minamount>3</minamount>
+    <maxamount>1000</maxamount>
+  </item>
+  <item>
+    <from>BTC</from>
+    <to></to>
+    <in>1</in>
+    <out>2</out>
+    <amount>572962.42</amount>
+    <minamount>3</minamount>
+    <maxamount>1000</maxamount>
+  </item>
+  <item>
+    <from>Dogecoin</from>
+    <to></to>
+    <in>3</in>
+    <out>2</out>
+    <amount>572962.42</amount>
+    <minamount>3</minamount>
+    <maxamount>1000</maxamount>
+  </item>
+  <item>
+    <from>BTC</from>
+    <to>BanK Card</to>
+    <in>1</in>
+    <out>4</out>
+    <amount>572962.42</amount>
+    <minamount>3</minamount>
+    <maxamount>1000</maxamount>
+  </item>
+  <item>
+    <from>BanK Card</from>
+    <to>BTC</to>
+    <in>4</in>
+    <out>1</out>
+    <amount>572962.42</amount>
+    <minamount>3</minamount>
+    <maxamount>1000</maxamount>
+  </item>
+</rates>
