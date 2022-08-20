@@ -387,9 +387,8 @@ if($b == "explore") {
 					<th width="5%">ID</th>
 					<th width="10%">From</th>
 					<th width="10%">To</th>
-					<th width="10%">Amount send (receive)</th>
-					<th width="10%">Exchange ID</th>
-					<th width="20%">Transaction ID</th>
+					<th width="20%">Amount send (receive)</th>
+					<th width="20%">Exchange ID</th>
 					<th width="10%">Status</th>
 					<th width="10%">Process type</th>
 					<th width="10%">Action</th>
@@ -427,7 +426,6 @@ if($b == "explore") {
 							<td><?php if($row['wid']>0) { echo 'Wallet '.walletinfo($row['wid'],"currency"); } else { echo gatewayinfo($row['gateway_send'],"name"); ?> <?php echo gatewayinfo($row['gateway_send'],"currency"); } ?></td>
 							<td><?php echo gatewayinfo($row['gateway_receive'],"name"); ?> <?php echo gatewayinfo($row['gateway_receive'],"currency"); ?></td>
 							<td><?php echo $row['amount_send']; ?> <?php echo gatewayinfo($row['gateway_send'],"currency"); ?> (<?php echo $row['amount_receive']; ?> <?php echo gatewayinfo($row['gateway_receive'],"currency"); ?>)</td>
-							<td><span class="label label-default"><?php echo $row['transaction_id']; ?></span></td>
 							<td><span class="label label-default"><?php echo $row['exchange_id']; ?></span></td>
 							<td>
 								<?php
