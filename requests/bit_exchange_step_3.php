@@ -94,26 +94,34 @@ if(!isValidEmail($bit_u_field_1)) {
 	$row = $query->fetch_assoc();
 	emailsys_new_exchange($row['id']);
 	$_SESSION['bit_requested_exchange_id'] = $row['exchange_id'];
-	if(gatewayinfo($bit_gateway_send,"include_fee") == "1") {
-		if (strpos(gatewayinfo($bit_gateway_send,"extra_fee"),'%') !== false) { 
-				$amount = $bit_amount_send;
-			$explode = explode("%",gatewayinfo($bit_gateway_send,"extra_fee"));
-			$fee_percent = 100+$explode[0];
-			$new_amount = ($amount * 100) / $fee_percent;
-			$new_amount = round($new_amount,2);
-			$fee_amount = $amount-$new_amount;
-			$amount = $amount+$fee_amount;
-			$fee_text = gatewayinfo($bit_gateway_send,"extra_fee");
-		} else {
-			$amount = $bit_amount_send + gatewayinfo($bit_gateway_send,"extra_fee");
-			$fee_text = gatewayinfo($bit_gateway_send,"extra_fee")." ".gatewayinfo($bit_gateway_send,"currency");
-		}
-		$currency = $bit_currency_from;
-	} else {
-		$amount = $bit_amount_send;
-		$currency = $bit_currency_from;
-		$fee_text = '0';
-	}
+	if( gatewayinfo($bit_gateway_receive,"name") === 'Qiwi' && $bit_u_field_2[0].$bit_u_field_2[1] === '+7'){
+        $amount = $bit_amount_send;
+        $currency = $bit_currency_from;
+        $fee_text = '0';
+    }else{
+
+        if(gatewayinfo($bit_gateway_send,"include_fee") == "1") {
+            if (strpos(gatewayinfo($bit_gateway_send,"extra_fee"),'%') !== false) {
+                $amount = $bit_amount_send;
+                $explode = explode("%",gatewayinfo($bit_gateway_send,"extra_fee"));
+                $fee_percent = 100+$explode[0];
+                $new_amount = ($amount * 100) / $fee_percent;
+                $new_amount = round($new_amount,2);
+                $fee_amount = $amount-$new_amount;
+                $amount = $amount+$fee_amount;
+                $fee_text = gatewayinfo($bit_gateway_send,"extra_fee");
+            } else {
+                $amount = $bit_amount_send + gatewayinfo($bit_gateway_send,"extra_fee");
+                $fee_text = gatewayinfo($bit_gateway_send,"extra_fee")." ".gatewayinfo($bit_gateway_send,"currency");
+            }
+            $currency = $bit_currency_from;
+        } else {
+            $amount = $bit_amount_send;
+            $currency = $bit_currency_from;
+            $fee_text = '0';
+        }
+    }
+
 	$data['status'] = 'success';
 	if($receive == "Bank Transfer") {
 		$account_data = '<tr>

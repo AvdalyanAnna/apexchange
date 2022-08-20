@@ -2,16 +2,7 @@
 <rates>
   <item>
     <from>BTC</from>
-    <to>Dogecoin</to>
-    <in>1</in>
-    <out>3</out>
-    <amount>572962.42</amount>
-    <minamount>3</minamount>
-    <maxamount>1000</maxamount>
-  </item>
-  <item>
-    <from>BTC</from>
-    <to></to>
+    <to>PayPal</to>
     <in>1</in>
     <out>2</out>
     <amount>572962.42</amount>
@@ -19,17 +10,17 @@
     <maxamount>1000</maxamount>
   </item>
   <item>
-    <from>Dogecoin</from>
-    <to></to>
-    <in>3</in>
-    <out>2</out>
+    <from>Bank Card</from>
+    <to>BTC</to>
+    <in>4</in>
+    <out>1</out>
     <amount>572962.42</amount>
     <minamount>3</minamount>
     <maxamount>1000</maxamount>
   </item>
   <item>
     <from>BTC</from>
-    <to>BanK Card</to>
+    <to>Bank Card</to>
     <in>1</in>
     <out>4</out>
     <amount>572962.42</amount>
@@ -37,10 +28,37 @@
     <maxamount>1000</maxamount>
   </item>
   <item>
-    <from>BanK Card</from>
+    <from>Qiwi</from>
+    <to>Tether TRC20</to>
+    <in>9</in>
+    <out>7</out>
+    <amount>572962.42</amount>
+    <minamount>3</minamount>
+    <maxamount>1000</maxamount>
+  </item>
+  <item>
+    <from>Tether TRC20</from>
+    <to>Qiwi</to>
+    <in>7</in>
+    <out>9</out>
+    <amount>572962.42</amount>
+    <minamount>3</minamount>
+    <maxamount>1000</maxamount>
+  </item>
+  <item>
+    <from>BTC</from>
     <to>BTC</to>
-    <in>4</in>
+    <in>1</in>
     <out>1</out>
+    <amount>572962.42</amount>
+    <minamount>3</minamount>
+    <maxamount>1000</maxamount>
+  </item>
+  <item>
+    <from>Qiwi</from>
+    <to>Qiwi</to>
+    <in>9</in>
+    <out>9</out>
     <amount>572962.42</amount>
     <minamount>3</minamount>
     <maxamount>1000</maxamount>

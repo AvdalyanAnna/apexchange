@@ -144,7 +144,6 @@ function bit_decode_company(value) {
 }
 
 function bit_rates() {
-	alert(1)
 	var url = $("#url").val();
 	var gateway_send = $("#bit_gateway_send").val();
 	var gateway_receive = $("#bit_gateway_receive").val();
