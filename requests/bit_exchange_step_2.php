@@ -57,7 +57,79 @@ if(empty($bit_rate_from) or empty($bit_rate_to)) {
 } else {
 	$data['status'] = 'success';
 	$receive = gatewayinfo($bit_gateway_receive,"name");
-	if($receive == "Bank Transfer") {
+    if($receive == "Qiwi") {
+        $fields = '';
+        $check = $db->query("SELECT * FROM bit_gateways WHERE name='$receive' and external_gateway='1'");
+        if($check->num_rows>0) {
+            $r = $check->fetch_assoc();
+            $query = $db->query("SELECT MAX(field_number) AS max FROM bit_gateways_fields WHERE gateway_id='$r[id]' ");
+            $result = $query->fetch_assoc();
+            $number = rand(1,$result['max']);
+            $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' AND field_number='$number'  ORDER BY id")  ;
+            if($fieldsquery->num_rows>0) {
+                while($field = $fieldsquery->fetch_assoc()) {
+                    $field_number = $field['field_number']+1;
+                    $fields .= '<div class="form-group">
+								<label>'.$field[field_name].'</label>
+								<input type="text" class="form-control input-lg form_style_1" name="bit_u_field_'.$field_number.'">
+							</div>';
+                }
+            }
+            $html_form = '<div id="bit_exchange_results"></div>
+				<div class="row">
+					<div class="col-md-2"></div>
+					<div class="col-md-8">
+						<h3><i class="fa fa-user"></i> '.$lang[your_data_to_receive].'</h3>
+						<form id="bit_exchange_form">
+							<div class="form-group">
+								<label>'.$lang[your_email].'</label>
+								<input type="text" class="form-control input-lg form_style_1" name="bit_u_field_1">
+							</div>
+							'.$fields.'
+							<input type="hidden" name="bit_gateway_send" value="'.$bit_gateway_send.'">
+							<input type="hidden" name="bit_gateway_receive" value="'.$bit_gateway_receive.'">
+							<input type="hidden" name="bit_amount_send" value="'.$bit_amount_send.'">
+							<input type="hidden" name="bit_amount_receive" value="'.$bit_amount_receive.'">
+							<input type="hidden" name="bit_rate_from" value="'.$bit_rate_from.'">
+							<input type="hidden" name="bit_rate_to" value="'.$bit_rate_to.'">
+							<input type="hidden" name="bit_currency_from" value="'.$bit_currency_from.'">
+							<input type="hidden" name="bit_currency_to" value="'.$bit_currency_to.'">
+							<center>
+								<button type="button" class="btn btn-primary btn-lg" onclick="bit_exchange_step_3();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-refresh"></i> '.$lang[btn_process_exchange].'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+							</center>
+						</form>
+					</div>
+					<div class="col-md-2"></div>
+				</div>';
+        }
+        $html_form = '<div id="bit_exchange_results"></div>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<h3><i class="fa fa-user"></i> '.$lang[your_data_to_receive].'</h3>
+					<form id="bit_exchange_form">
+						<div class="form-group">
+							<label>'.$lang[your_email].'</label>
+							<input type="text" class="form-control input-lg form_style_1" name="bit_u_field_1">
+						</div>'.$fields .'
+						 
+						<input type="hidden" name="bit_gateway_send" value="'.$bit_gateway_send.'">
+						<input type="hidden" name="bit_gateway_receive" value="'.$bit_gateway_receive.'">
+						<input type="hidden" name="bit_amount_send" value="'.$bit_amount_send.'">
+						<input type="hidden" name="bit_amount_receive" value="'.$bit_amount_receive.'">
+						<input type="hidden" name="bit_rate_from" value="'.$bit_rate_from.'">
+						<input type="hidden" name="bit_rate_to" value="'.$bit_rate_to.'">
+						<input type="hidden" name="bit_currency_from" value="'.$bit_currency_from.'">
+						<input type="hidden" name="bit_currency_to" value="'.$bit_currency_to.'">
+						<center>
+							<button type="button" class="btn btn-primary btn-lg" onclick="bit_exchange_step_3();"><i class="fa fa-refresh"></i> '.$lang[btn_process_exchange].'</button>
+						</center>
+					</form>
+				</div>
+				<div class="col-md-2"></div>
+			</div>';
+    }
+	else if($receive == "Bank Transfer") {
 		$html_form = '<div id="bit_exchange_results"></div>
 			<div class="row">
 				<div class="col-md-2"></div>
