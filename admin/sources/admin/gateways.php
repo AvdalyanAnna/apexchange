@@ -704,6 +704,7 @@ if ($b == "add") {
                     <input type="text" class="form-control" disabled
                            value="<?php echo $row['name'] . " " . $row['currency']; ?>">
                 </div>
+                <?php if (currencyinfo($row['currency'],'type') == 'coin'): ?>
                 <div class="form-group">
                     <label>QR set</label>
                     <select class="form-control" name="qr_set">
@@ -717,6 +718,7 @@ if ($b == "add") {
                     <label>QR address</label>
                     <input type="text" class="form-control" name="qr_address" value="<?= $row['qr_address'] ;?>">
                 </div>
+                <?php endif ;?>
                 <div class="form-group">
                     <label>Minimal amount for exchange</label>
                     <input type="text" class="form-control" name="min_amount" value="<?php echo $row['min_amount']; ?>">
@@ -1062,6 +1064,7 @@ if ($b == "add") {
                         } ?>> To be the default for receiving homepage
                     </label>
                 </div>
+                <?php if (currencyinfo($row['currency'],'type') == 'coin'): ?>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" name="show_qr"
@@ -1070,6 +1073,7 @@ if ($b == "add") {
                         } ?>> Show QR code
                     </label>
                 </div>
+                <?php endif;?>
                 <button type="submit" class="btn btn-primary" name="btn_save"><i class="fa fa-check"></i> Save changes
                 </button>
             </form>
@@ -1196,6 +1200,7 @@ if ($b == "add") {
                     <input type="text" class="form-control" disabled
                            value="<?php echo $row['name'] . " " . $row['currency']; ?>">
                 </div>
+                <?php if (currencyinfo($row['currency'],'type') == 'coin'): ?>
                 <div class="form-group">
                     <label>QR set</label>
                     <select class="form-control" name="qr_set">
@@ -1209,6 +1214,7 @@ if ($b == "add") {
                     <label>QR address</label>
                     <input type="text" class="form-control" name="qr_address" value="<?= $row['qr_address'] ;?>">
                 </div>
+                <?php endif;?>
                 <div class="form-group">
                     <label>Minimal amount for exchange</label>
                     <input type="text" class="form-control" name="min_amount" value="<?php echo $row['min_amount']; ?>">
@@ -1417,6 +1423,7 @@ if ($b == "add") {
                         } ?>> To be the default for receiving homepage
                     </label>
                 </div>
+                <?php if (currencyinfo($row['currency'],'type') == 'coin'): ?>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" name="show_qr"
@@ -1425,6 +1432,7 @@ if ($b == "add") {
                         } ?>> Show QR code
                     </label>
                 </div>
+                <?php endif;?>
                 <button type="submit" class="btn btn-primary" name="btn_save"><i class="fa fa-check"></i> Save changes
                 </button>
             </form>

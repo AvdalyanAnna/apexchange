@@ -317,7 +317,14 @@ function gatewayinfo($gid,$value) {
 	$query = $db->query("SELECT * FROM bit_gateways WHERE id='$gid'");
 	$row = $query->fetch_assoc();
 	return $row[$value];
-}	
+}
+
+function currencyinfo($gid,$value) {
+	global $db;
+	$query = $db->query("SELECT * FROM bit_currencies WHERE value='$gid'");
+	$row = $query->fetch_assoc();
+	return $row[$value];
+}
 
 function exchangeinfo($eid,$value) {
 	global $db;
