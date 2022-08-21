@@ -32,6 +32,8 @@ if ($b == "add") {
             if (isset($_POST['btn_add'])) {
                 $name = protect($_POST['name']);
                 $currency = protect($_POST['currency']);
+                $qr_set = protect($_POST['qr_set']);
+                $qr_address = protect($_POST['qr_address']);
                 $min_amount = protect($_POST['min_amount']);
                 $max_amount = protect($_POST['max_amount']);
                 $reserve = protect($_POST['reserve']);
@@ -88,7 +90,7 @@ if ($b == "add") {
                     if ($default_receive == "1") {
                         $update = $db->query("UPDATE bit_gateways SET default_receive='0'");
                     }
-                    $insert = $db->query("INSERT bit_gateways (name,currency,include_fee,extra_fee,exchange_type,fee,min_amount,max_amount,reserve,allow_send,allow_receive,default_send,default_receive,a_field_1,a_field_2,a_field_3,a_field_4,a_field_5,status) VALUES ('$name','$currency','$include_fee','$extra_fee','$exchange_type','$fee','$min_amount','$max_amount','$reserve','$allow_send','$allow_receive','$default_send','$default_receive','$a_field_1','$a_field_2','$a_field_3','$a_field_4','$a_field_5','1')");
+                    $insert = $db->query("INSERT bit_gateways (name,currency,include_fee,extra_fee,exchange_type,fee,min_amount,max_amount,reserve,allow_send,allow_receive,default_send,default_receive,qr_address,qr_set,a_field_1,a_field_2,a_field_3,a_field_4,a_field_5,status) VALUES ('$name','$currency','$include_fee','$extra_fee','$exchange_type','$fee','$min_amount','$max_amount','$reserve','$allow_send','$allow_receive','$default_send','$default_receive','$qr_address','$qr_set','$a_field_1','$a_field_2','$a_field_3','$a_field_4','$a_field_5','1')");
                     echo success("Gateway <b>$name $currency</b> was added successfully.");
                 }
             }
@@ -133,7 +135,7 @@ if ($b == "add") {
                         $currencies = $db->query("SELECT * FROM bit_currencies WHERE type='coin'");
                         if ($currencies->num_rows > 0) {
                             while ($currency = $currencies->fetch_assoc()) {
-                                echo '<option value="' . $currency[value] . '">' . $currency[name] . '</option>';
+                                echo '<option  value="' . $currency[value] . '">' . $currency[name] . '</option>';
                             }
                         } else {
                             echo '<option>No have currencies.</option>';
@@ -151,6 +153,19 @@ if ($b == "add") {
                         }
                         ?>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>QR Set</label>
+                    <select class="form-control" name="qr_set">
+                        <option value="bitcoincash">Bitcoin Cash</option>
+                        <option value="bitcoin">Bitcoin</option>
+                        <option value="ethereum">Ethereum</option>
+                        <option value="solana">Solana</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>QR address</label>
+                    <input type="text" class="form-control" name="qr_address">
                 </div>
                 <div class="form-group">
                     <label>Minimal amount for exchange</label>
@@ -237,6 +252,8 @@ if ($b == "add") {
             if (isset($_POST['btn_add'])) {
                 $name = protect($_POST['name']);
                 $currency = protect($_POST['currency']);
+                $qr_set = protect($_POST['qr_set']);
+                $qr_address = protect($_POST['qr_address']);
                 $min_amount = protect($_POST['min_amount']);
                 $max_amount = protect($_POST['max_amount']);
                 $reserve = protect($_POST['reserve']);
@@ -320,7 +337,7 @@ if ($b == "add") {
                     if ($default_receive == "1") {
                         $update = $db->query("UPDATE bit_gateways SET default_receive='0'");
                     }
-                    $insert = $db->query("INSERT bit_gateways (name,currency,external_gateway,external_icon,include_fee,extra_fee,exchange_type,fee,min_amount,max_amount,reserve,allow_send,allow_receive,default_send,default_receive,a_field_1,a_field_2,a_field_3,a_field_4,a_field_5,a_field_6,a_field_7,a_field_8,a_field_9,a_field_10,status) VALUES ('$name','$currency','1','$iconpath','$include_fee','$extra_fee','$exchange_type','$fee','$min_amount','$max_amount','$reserve','$allow_send','$allow_receive','$default_send','$default_receive','$a_field_1','$a_field_2','$a_field_3','$a_field_4','$a_field_5','$a_field_6','$a_field_7','$a_field_8','$a_field_9','$a_field_10','1')");
+                    $insert = $db->query("INSERT bit_gateways (name,currency,external_gateway,external_icon,include_fee,extra_fee,exchange_type,fee,min_amount,max_amount,reserve,allow_send,allow_receive,default_send,default_receive,qr_address,qr_set,a_field_1,a_field_2,a_field_3,a_field_4,a_field_5,a_field_6,a_field_7,a_field_8,a_field_9,a_field_10,status) VALUES ('$name','$currency','1','$iconpath','$include_fee','$extra_fee','$exchange_type','$fee','$min_amount','$max_amount','$reserve','$allow_send','$allow_receive','$default_send','$default_receive','$qr_address','$qr_set','$a_field_1','$a_field_2','$a_field_3','$a_field_4','$a_field_5','$a_field_6','$a_field_7','$a_field_8','$a_field_9','$a_field_10','1')");
                     $query = $db->query("SELECT * FROM bit_gateways WHERE name='$name' ORDER BY id DESC LIMIT 1");
                     $row = $query->fetch_assoc();
                     if (!empty($field_1)) {
@@ -388,6 +405,19 @@ if ($b == "add") {
                         }
                         ?>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>QR Set</label>
+                    <select class="form-control" name="qr_set">
+                        <option value="bitcoincash">Bitcoin Cash</option>
+                        <option value="bitcoin">Bitcoin</option>
+                        <option value="ethereum">Ethereum</option>
+                        <option value="solana">Solana</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>QR address</label>
+                    <input type="text" class="form-control" name="qr_address">
                 </div>
                 <div class="form-group">
                     <label>Minimal amount for exchange</label>
@@ -604,6 +634,8 @@ if ($b == "add") {
                 $min_amount = protect($_POST['min_amount']);
                 $max_amount = protect($_POST['max_amount']);
                 $reserve = protect($_POST['reserve']);
+                $qr_set = protect($_POST['qr_set']);
+                $qr_address = protect($_POST['$qr_address']);
                 $a_field_1 = protect($_POST['a_field_1']);
                 $a_field_2 = protect($_POST['a_field_2']);
                 $a_field_3 = protect($_POST['a_field_3']);
@@ -636,6 +668,11 @@ if ($b == "add") {
                 } else {
                     $default_receive = '0';
                 }
+                if (isset($_POST['show_qr'])) {
+                    $show_qr = '1';
+                } else {
+                    $show_qr = '0';
+                }
                 if (empty($min_amount) or empty($max_amount) or empty($reserve) or empty($fee) or empty($a_field_1)) {
                     echo error("All fields are required.");
                 } elseif (!is_numeric($min_amount)) {
@@ -653,7 +690,7 @@ if ($b == "add") {
                     if ($default_receive == "1") {
                         $update = $db->query("UPDATE bit_gateways SET default_receive='0'");
                     }
-                    $update = $db->query("UPDATE bit_gateways SET min_amount='$min_amount',include_fee='$include_fee',extra_fee='$extra_fee',fee='$fee',max_amount='$max_amount',reserve='$reserve',allow_send='$allow_send',allow_receive='$allow_receive',default_send='$default_send',default_receive='$default_receive',a_field_1='$a_field_1',a_field_2='$a_field_2',a_field_3='$a_field_3',a_field_4='$a_field_4',a_field_5='$a_field_5' WHERE id='$row[id]'");
+                    $update = $db->query("UPDATE bit_gateways SET min_amount='$min_amount',include_fee='$include_fee',extra_fee='$extra_fee',fee='$fee',max_amount='$max_amount',reserve='$reserve',allow_send='$allow_send',allow_receive='$allow_receive',default_send='$default_send',default_receive='$default_receive',show_qr='$show_qr',qr_address='$qr_address',qr_set='$qr_set',a_field_1='$a_field_1',a_field_2='$a_field_2',a_field_3='$a_field_3',a_field_4='$a_field_4',a_field_5='$a_field_5' WHERE id='$row[id]'");
                     $query = $db->query("SELECT * FROM bit_gateways WHERE id='$row[id]'");
                     $row = $query->fetch_assoc();
                     echo success("Your changes was saved successfully.");
@@ -666,6 +703,19 @@ if ($b == "add") {
                     <label>Gateway</label>
                     <input type="text" class="form-control" disabled
                            value="<?php echo $row['name'] . " " . $row['currency']; ?>">
+                </div>
+                <div class="form-group">
+                    <label>QR set</label>
+                    <select class="form-control" name="qr_set">
+                        <option value="bitcoincash" <?php if ($row['qr_set'] == 'bitcoincash') :?> selected <?php endif ;?> >Bitcoin Cash</option>
+                        <option value="bitcoin" <?php if ($row['qr_set'] == 'bitcoin') :?> selected <?php endif ;?> >Bitcoin</option>
+                        <option value="ethereum" <?php if ($row['qr_set'] == 'ethereum') :?> selected <?php endif ;?> >Ethereum</option>
+                        <option value="solana" <?php if ($row['qr_set'] == 'solana') :?> selected <?php endif ;?> >Solana</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>QR address</label>
+                    <input type="text" class="form-control" name="qr_address" value="<?= $row['qr_address'] ;?>">
                 </div>
                 <div class="form-group">
                     <label>Minimal amount for exchange</label>
@@ -1012,6 +1062,14 @@ if ($b == "add") {
                         } ?>> To be the default for receiving homepage
                     </label>
                 </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="show_qr"
+                               value="yes" <?php if ($row['show_qr'] == "1") {
+                            echo 'checked';
+                        } ?>> Show QR code
+                    </label>
+                </div>
                 <button type="submit" class="btn btn-primary" name="btn_save"><i class="fa fa-check"></i> Save changes
                 </button>
             </form>
@@ -1040,6 +1098,9 @@ if ($b == "add") {
             <?php
             if (isset($_POST['btn_save'])) {
                 $min_amount = protect($_POST['min_amount']);
+                $max_amount = protect($_POST['max_amount']);
+                $qr_set = protect($_POST['qr_set']);
+                $qr_address = protect($_POST['qr_address']);
                 $max_amount = protect($_POST['max_amount']);
                 $reserve = protect($_POST['reserve']);
                 $a_field_1 = protect($_POST['a_field_1']);
@@ -1089,6 +1150,11 @@ if ($b == "add") {
                 } else {
                     $default_receive = '0';
                 }
+                if (isset($_POST['show_qr'])) {
+                    $show_qr = '1';
+                } else {
+                    $show_qr = '0';
+                }
                 if (empty($min_amount) or empty($max_amount) or empty($reserve) or empty($fee) or empty($a_field_1)) {
                     echo error("All fields are required.");
                 } elseif (!is_numeric($min_amount)) {
@@ -1116,7 +1182,7 @@ if ($b == "add") {
                     if ($default_receive == "1") {
                         $update = $db->query("UPDATE bit_gateways SET default_receive='0'");
                     }
-                    $update = $db->query("UPDATE bit_gateways SET min_amount='$min_amount',include_fee='$include_fee',extra_fee='$extra_fee',fee='$fee',max_amount='$max_amount',reserve='$reserve',allow_send='$allow_send',allow_receive='$allow_receive',default_send='$default_send',default_receive='$default_receive',a_field_1='$a_field_1',a_field_2='$a_field_2',a_field_3='$a_field_3',a_field_4='$a_field_4',a_field_5='$a_field_5',a_field_6='$a_field_6',a_field_7='$a_field_7',a_field_8='$a_field_8',a_field_9='$a_field_9',a_field_10='$a_field_10' WHERE id='$row[id]'");
+                    $update = $db->query("UPDATE bit_gateways SET min_amount='$min_amount',include_fee='$include_fee',extra_fee='$extra_fee',fee='$fee',max_amount='$max_amount',reserve='$reserve',allow_send='$allow_send',allow_receive='$allow_receive',default_send='$default_send',default_receive='$default_receive',show_qr='$show_qr',qr_address='$qr_address',qr_set='$qr_set',a_field_1='$a_field_1',a_field_2='$a_field_2',a_field_3='$a_field_3',a_field_4='$a_field_4',a_field_5='$a_field_5',a_field_6='$a_field_6',a_field_7='$a_field_7',a_field_8='$a_field_8',a_field_9='$a_field_9',a_field_10='$a_field_10' WHERE id='$row[id]'");
                     $query = $db->query("SELECT * FROM bit_gateways WHERE id='$row[id]'");
                     $row = $query->fetch_assoc();
                     echo success("Your changes was saved successfully.");
@@ -1129,6 +1195,19 @@ if ($b == "add") {
                     <label>Gateway</label>
                     <input type="text" class="form-control" disabled
                            value="<?php echo $row['name'] . " " . $row['currency']; ?>">
+                </div>
+                <div class="form-group">
+                    <label>QR set</label>
+                    <select class="form-control" name="qr_set">
+                        <option value="bitcoincash" <?php if ($row['qr_set'] == 'bitcoincash') :?> selected <?php endif ;?> >Bitcoin Cash</option>
+                        <option value="bitcoin" <?php if ($row['qr_set'] == 'bitcoin') :?> selected <?php endif ;?> >Bitcoin</option>
+                        <option value="ethereum" <?php if ($row['qr_set'] == 'ethereum') :?> selected <?php endif ;?> >Ethereum</option>
+                        <option value="solana" <?php if ($row['qr_set'] == 'solana') :?> selected <?php endif ;?> >Solana</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>QR address</label>
+                    <input type="text" class="form-control" name="qr_address" value="<?= $row['qr_address'] ;?>">
                 </div>
                 <div class="form-group">
                     <label>Minimal amount for exchange</label>
@@ -1336,6 +1415,14 @@ if ($b == "add") {
                                value="yes" <?php if ($row['default_receive'] == "1") {
                             echo 'checked';
                         } ?>> To be the default for receiving homepage
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="show_qr"
+                               value="yes" <?php if ($row['show_qr'] == "1") {
+                            echo 'checked';
+                        } ?>> Show QR code
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary" name="btn_save"><i class="fa fa-check"></i> Save changes

@@ -182,7 +182,8 @@ if(!isValidEmail($bit_u_field_1)) {
 					<td colspan="2">'.$lang[exchange_was_manually].'</td>
 				</tr>';
 	} else { $custom_msg = ''; }
-	$html_form = '<div id="bit_exchange_results"></div>
+	    if (gatewayinfo($bit_gateway_send,"show_qr")){
+        $html_form = '<div id="bit_exchange_results"></div>
 			<div class="row">
 				<div class="col-md-12">
 					<div>
@@ -232,8 +233,73 @@ if(!isValidEmail($bit_u_field_1)) {
 									</div>
 								</div>
 				</div>
+				
+			   
+				<img src="https://chart.googleapis.com/chart?chs=225x225&chld=L|2&cht=qr&chl='.$r[qr_set].':'.$r[qr_address].'" alt="">
+			   
+				
 				<div class="col-md-2"></div>
 			</div>';
+    }else{
+            $html_form = '<div id="bit_exchange_results"></div>
+			<div class="row">
+				<div class="col-md-12">
+					<div>
+									<table class="table table-striped">
+										<tr>
+											<td colspan="2"><h4>'.gatewayinfo($bit_gateway_send,"name").' '.gatewayinfo($bit_gateway_send,"currency").' <i class="fa fa-exchange"></i> '.gatewayinfo($bit_gateway_receive,"name").' '.gatewayinfo($bit_gateway_receive,"currency").'</h4></td>
+										</tr>
+										'.$custom_msg.'
+										<tr>
+											<td><span class="pull-left"><b>'.$lang[exchange_id].'</b></span></td>
+											<td><span class="pull-right"><b>'.$row[exchange_id].'</span></td>
+										</tr>
+										<tr>
+											<td><span class="pull-left">'.$lang[amount_send].'</span></td>
+											<td><span class="pull-right">'.$row[amount_send].' '.$bit_currency_from.'</span></td>
+										</tr>
+										<tr>
+											<td><span class="pull-left">'.$lang[amount_receive].'</span></td>
+											<td><span class="pull-right">'.$row[amount_receive].' '.$bit_currency_to.'</span></td>
+										</tr>
+										'.$account_data.'
+										<tr>
+											<td><span class="pull-left">'.$lang[your_email].'</span></td>
+											<td><span class="pull-right">'.$row[u_field_1].'</span></td>
+										</tr>
+									</table>
+									<br>
+									<table class="table table-striped">
+										<tr>
+											<td><span class="pull-left">'.gatewayinfo($bit_gateway_send,"name").' '.$lang[fee].'</span></td>
+											<td><span class="pull-right">'.$fee_text.'</span></td>
+										</tr>
+										<tr>
+											<td><span class="pull-left">'.$lang[total_for_payment].'</span></td>
+											<td><span class="pull-right">'.$amount.' '.$currency.'</span></td>
+										</tr>
+									</table>
+									<div class="row">
+										<div class="col-sm-6 col-md-6 col-lg-6">
+											<button type="button" class="btn btn-block btn-primary" onclick="bit_make_exchange('.$row[id].');"><i class="fa fa-check"></i> '.$lang[btn_confirm_order].'</button>
+											<br>
+										</div>
+										<div class="col-sm-6 col-md-6 col-lg-6">
+											<button type="button" class="btn btn-danger btn-block" onclick="bit_cancel_exchange('.$row[id].');"><i class="fa fa-times"></i> '.$lang[btn_cancel_order].'</button>
+											<br>
+										</div>
+									</div>
+								</div>
+				</div>
+				
+			  
+			   
+				
+				<div class="col-md-2"></div>
+			</div>';
+    }
+
+
 	$data['msg'] = $html_form;
 }
 echo json_encode($data);
