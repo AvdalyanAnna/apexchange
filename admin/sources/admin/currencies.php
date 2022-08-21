@@ -179,7 +179,7 @@ if($b == "add") { ?>
                     $i = $page * $limit;
                 }
                 $statement = "bit_currencies";
-                $query = $db->query("SELECT * FROM {$statement} ORDER BY id LIMIT {$startpoint} , {$limit}");
+                $query = $db->query("SELECT * FROM {$statement} ORDER BY id ");
 
                 if($query->num_rows>0) {
                     while($row = $query->fetch_assoc()) {
@@ -204,7 +204,5 @@ if($b == "add") { ?>
         </div>
     </div>
 <?php } ?>
-
-
 
 

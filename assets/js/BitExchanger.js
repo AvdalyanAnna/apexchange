@@ -83,22 +83,27 @@ function bit_cancel_exchange(id) {
 }
 
 function bit_confirm_transaction(id) {
-	var url = $("#url").val();
-	var data_url = url + "requests/bit_confirm_transaction.php?id="+id;
-	$.ajax({
-		type: "POST",
-		url: data_url,
-		data: $("#bit_confirm_transaction").serialize(),
-		dataType: "json",
-		success: function (data) {
-			if(data.status == "success") {
-				$("#bit_confirm_transaction").hide();
-				$("#bit_transaction_results").html(data.msg);
-			} else {
-				$("#bit_transaction_results").html(data.msg);
-			}
+	if($('[name="transaction_id"]').val() !== ''){
+		var url = $("#url").val();
+		const data = {
+			transaction_id:$('[name="transaction_id"]').val()
 		}
-	});
+		var data_url = url + "requests/bit_confirm_transaction.php?id="+id;
+		$.ajax({
+			type: "POST",
+			url: data_url,
+			data: data,
+			dataType: "json",
+			success: function (data) {
+				if(data.status == "success") {
+					$("#bit_confirm_transaction").hide();
+					$("#bit_transaction_results").html(data.msg);
+				} else {
+					$("#bit_transaction_results").html(data.msg);
+				}
+			}
+		});
+	}
 }
 
 function bit_decode_company(value) {

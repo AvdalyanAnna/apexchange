@@ -49,7 +49,11 @@
             text-align: center;
             color: #125a96;
             padding: 5px;
-        }</style>
+        }
+
+    .disabled{
+        cursor: no-drop;
+    }</style>
 </head>
 <body>
 
@@ -68,7 +72,8 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" href="<?php echo $settings['url']; ?>" style="font-size:24px;color: #1568ac;">Аpexchange</a>
+                <a class="navbar-brand" href="<?php echo $settings['url']; ?>" style="
+               text-transform: uppercase; font-size:24px;color: #1568ac;">Аpexchange</a>
             </div>
 
             <div class="navbar-left">
