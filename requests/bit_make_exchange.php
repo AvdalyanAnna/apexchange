@@ -41,8 +41,7 @@ if($query->num_rows>0) {
 	if($gateway_send == "Bank Transfer") {
 	?>
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div id="bit_transaction_results">
       <?php echo info("Вам необходимо произвести оплату вручную, используйте данные ниже и введите номер транзакции в форму ниже."); ?>
     </div>
@@ -77,6 +76,7 @@ if($query->num_rows>0) {
               (<?php echo $row['id']; ?>)</span></td>
         </tr>
       </table>
+        <div id="timer"></div>
       <div class="form-group">
         <label><?php echo $lang['enter_transaction_number']; ?></label>
         <input type="text" class="form-control" name="transaction_id">
@@ -85,14 +85,12 @@ if($query->num_rows>0) {
         class="btn btn-primary btn-block"><?php echo $lang['btn_confirm_transaction']; ?></button>
     </form>
   </div>
-  <div class="col-md-2"></div>
 </div>
 <?php
 	} elseif($gateway_send == "Western Union" or $gateway_send == "Monetgram") {
 	?>
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div id="bit_transaction_results"><?php echo info("$lang[info_11]"); ?></div>
     <form id="bit_confirm_transaction">
       <table class="table table-striped">
@@ -123,6 +121,7 @@ if($query->num_rows>0) {
               (<?php echo $row['id']; ?>)</span></td>
         </tr>
       </table>
+        <div id="timer"></div>
       <div class="form-group">
         <label><?php echo $lang['enter']; ?> <?php echo gatewayinfo($row['gateway_send'],"name"); ?>
           <?php echo $lang['pin_code']; ?></label>
@@ -132,14 +131,12 @@ if($query->num_rows>0) {
         class="btn btn-primary btn-block"><?php echo $lang['btn_confirm_transaction']; ?></button>
     </form>
   </div>
-  <div class="col-md-2"></div>
 </div>
 <?php
 	} elseif($gateway_send == "Bitcoin" or $gateway_send == "Litecoin" or $gateway_send == "Dogecoin" or $gateway_send == "Dash" or $gateway_send == "Peercoin" or $gateway_send == "Ethereum") {
 	?>
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div id="bit_transaction_results"><?php echo info("$lang[info_11]"); ?></div>
     <form id="bit_confirm_transaction">
       <table class="table table-striped">
@@ -168,6 +165,7 @@ if($query->num_rows>0) {
               (<?php echo $row['id']; ?>)</span></td>
         </tr>
       </table>
+        <div id="timer"></div>
       <div class="form-group">
         <label><?php echo $lang['enter_transaction_number']; ?></label>
         <input type="text" class="form-control" name="transaction_id">
@@ -176,14 +174,12 @@ if($query->num_rows>0) {
         class="btn btn-primary btn-block"><?php echo $lang['btn_confirm_transaction']; ?></button>
     </form>
   </div>
-  <div class="col-md-2"></div>
 </div>
 <?php
 	} elseif($gateway_send == "Xoomwallet" or $gateway_send == "Neteller" or $gateway_send == "UQUID" or $gateway_send == "Yandex Money" or $gateway_send == "QIWI" or $gateway_send == "BTC-e" or $gateway_send == "2checkout") {
 	?>
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div id="bit_transaction_results">
       <?php echo info("Вам необходимо произвести оплату вручную, используйте данные ниже и введите номер транзакции в форму ниже."); ?>
     </div>
@@ -214,6 +210,7 @@ if($query->num_rows>0) {
               (<?php echo $row['id']; ?>)</span></td>
         </tr>
       </table>
+        <div id="timer"></div>
       <div class="form-group">
         <label><?php echo $lang['enter_transaction_number']; ?></label>
         <input type="text" class="form-control" name="transaction_id">
@@ -222,7 +219,6 @@ if($query->num_rows>0) {
         class="btn btn-primary btn-block"><?php echo $lang['btn_confirm_transaction']; ?></button>
     </form>
   </div>
-  <div class="col-md-2"></div>
 </div>
 <?php
 	} elseif($gateway_send == "PayPal") {
@@ -474,77 +470,147 @@ if($query->num_rows>0) {
 		$return .= '<script type="text/javascript">$(document).ready(function() { $("#payza_form").submit(); });</script>';
 		$return .= '<div id="processing" class="ex_padding"><center><i class="fa fa-spin fa-refresh" style="font-size:90px;"></i><br/><h3>'.$lang[redirecting_to_secure].'</h3></center></div>';
 		echo $return;	
-	} else {
-		$check = $db->query("SELECT * FROM bit_gateways WHERE name='$gateway_send' and external_gateway='1'");
-		if($check->num_rows>0) {
-			$r = $check->fetch_assoc();
-			$fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' ORDER BY id");
-			if($fieldsquery->num_rows>0) {
-				while($field = $fieldsquery->fetch_assoc()) {
-					$field_number = $field['field_number'];
-					$fild = 'a_field_'.$field_number;
-					$ret = $r[$fild];
-					$account_data .= '<tr>
+	}elseif($gateway_send == "Qiwi") {
+                    $account_data = '';
+            $check = $db->query("SELECT * FROM bit_gateways WHERE name='$gateway_send' and external_gateway='1'");
+            if($check->num_rows>0) {
+                $r = $check->fetch_assoc();
+                $query = $db->query("SELECT MAX(field_number) AS max FROM bit_gateways_fields WHERE gateway_id='$r[id]' ");
+                $result = $query->fetch_assoc();
+                $number = rand(1,$result['max']);
+                $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' AND field_number='$number'  ORDER BY id")  ;
+                if($fieldsquery->num_rows>0) {
+                    while($field = $fieldsquery->fetch_assoc()) {
+                        $field_number = $field['field_number']+1;
+                        $account_data .= '<tr>
 							<td><span class="pull-left">'.$field[field_name].'</span></td>
 							<td><span class="pull-right">'.$ret.'</span></td>
 					</tr>';
-				}
-			}
-			?>
-<div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
-    <div id="bit_transaction_results">
-      <?php echo info("Вам необходимо произвести оплату вручную, используйте данные ниже и введите номер транзакции в форму ниже."); ?>
-    </div>
-    <form id="bit_confirm_transaction">
-      <table class="table table-striped">
-        <tr>
-          <td colspan="2">
-            <h4><?php echo $lang['data_about_transfer']; ?></h4>
-          </td>
-        </tr>
-        <?php if(gatewayinfo($row['gateway_send'],"exchange_type") == "2" or gatewayinfo($row['gateway_send'],"exchange_type") == "3") { ?>
-        <tr>
-          <td colspan="2"><?php echo $lang['exchange_was_manually']; ?>   </td>
-        </tr>
-        <tr>
-          <td colspan="2"><br></td>
-        </tr>
-        <?php } ?>
-        <tr>
-          <td><span class="pull-left"><?php echo $lang['our']; ?>
-              <?php echo gatewayinfo($row['gateway_send'],"name"); ?> <?php echo $lang['details']; ?></span></td>
-          <td><span class="pull-right"></span></td>
-        </tr>
-        <?php echo $account_data; ?>
-        <tr>
-          <td colspan="2"><br></td>
-        </tr>
-        <tr>
-          <td><span class="pull-left"><?php echo $lang['enter_payment_amount']; ?></span></td>
-          <td><span class="pull-right"><?php echo $amount; ?> <?php echo $currency; ?></span></td>
-        </tr>
-        <tr>
-          <td><span class="pull-left"><?php echo $lang['enter_payment_description']; ?></span></td>
-          <td><span class="pull-right">Exchange <?php echo $row['amount_send']; ?> <?php echo $currency; ?>
+                    }
+                }
+            }  ?>
+        <div class="row">
+                    <div class="col-md-12">
+                        <div id="bit_transaction_results">
+                            <?php echo info("Вам необходимо произвести оплату вручную, используйте данные ниже и введите номер транзакции в форму ниже."); ?>
+                        </div>
+                        <form id="bit_confirm_transaction">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td colspan="2">
+                                        <h4><?php echo $lang['data_about_transfer']; ?></h4>
+                                    </td>
+                                </tr>
+                                <?php if(gatewayinfo($row['gateway_send'],"exchange_type") == "2" or gatewayinfo($row['gateway_send'],"exchange_type") == "3") { ?>
+                                    <tr>
+                                        <td colspan="2"><?php echo $lang['exchange_was_manually']; ?>   </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><br></td>
+                                    </tr>
+                                <?php } ?>
+                                <tr>
+                                    <td><span class="pull-left"><?php echo $lang['our']; ?>
+                                            <?php echo gatewayinfo($row['gateway_send'],"name"); ?> <?php echo $lang['details']; ?></span></td>
+                                    <td><span class="pull-right"></span></td>
+                                </tr>
+                                <?php echo $account_data; ?>
+                                <tr>
+                                    <td colspan="2"><br></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="pull-left"><?php echo $lang['enter_payment_amount']; ?></span></td>
+                                    <td><span class="pull-right"><?php echo $amount; ?> <?php echo $currency; ?></span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="pull-left"><?php echo $lang['enter_payment_description']; ?></span></td>
+                                    <td><span class="pull-right">Exchange <?php echo $row['amount_send']; ?> <?php echo $currency; ?>
               (<?php echo $row['id']; ?>)</span></td>
-        </tr>
-      </table>
-      <div class="form-group">
-        <label><?php echo $lang['enter_transaction_number']; ?></label>
-        <input type="text" class="form-control" name="transaction_id">
-      </div>
-      <button type="button" onclick="bit_confirm_transaction('<?php echo $row['id']; ?>');"
-        class="btn btn-primary btn-block"><?php echo $lang['btn_confirm_transaction']; ?></button>
-    </form>
-  </div>
-  <div class="col-md-2"></div>
-</div>
-<?php
-		} else {
-			echo error("Мы не поддерживаем этот шлюз. Пожалуйста, свяжитесь с администратором.");
-		}
+                                </tr>
+                            </table>
+                            <div id="timer"></div>
+                            <div class="form-group">
+                                <label><?php echo $lang['enter_transaction_number']; ?></label>
+                                <input type="text" class="form-control" name="transaction_id">
+                            </div>
+                            <button type="button" onclick="bit_confirm_transaction('<?php echo $row['id']; ?>');"
+                                    class="btn btn-primary btn-block"><?php echo $lang['btn_confirm_transaction']; ?></button>
+                        </form>
+                    </div>
+                </div>
+        <?php
+
+    }  else {
+            $check = $db->query("SELECT * FROM bit_gateways WHERE name='$gateway_send' and external_gateway='1'");
+            if($check->num_rows>0) {
+                $r = $check->fetch_assoc();
+                $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' ORDER BY id");
+                if($fieldsquery->num_rows>0) {
+                    while($field = $fieldsquery->fetch_assoc()) {
+                        $field_number = $field['field_number'];
+                        $fild = 'a_field_'.$field_number;
+                        $ret = $r[$fild];
+                        $account_data .= '<tr>
+							<td><span class="pull-left">'.$field[field_name].'</span></td>
+							<td><span class="pull-right">'.$ret.'</span></td>
+					</tr>';
+                    }
+                }
+                ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="bit_transaction_results">
+                            <?php echo info("Вам необходимо произвести оплату вручную, используйте данные ниже и введите номер транзакции в форму ниже."); ?>
+                        </div>
+                        <form id="bit_confirm_transaction">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td colspan="2">
+                                        <h4><?php echo $lang['data_about_transfer']; ?></h4>
+                                    </td>
+                                </tr>
+                                <?php if(gatewayinfo($row['gateway_send'],"exchange_type") == "2" or gatewayinfo($row['gateway_send'],"exchange_type") == "3") { ?>
+                                    <tr>
+                                        <td colspan="2"><?php echo $lang['exchange_was_manually']; ?>   </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><br></td>
+                                    </tr>
+                                <?php } ?>
+                                <tr>
+                                    <td><span class="pull-left"><?php echo $lang['our']; ?>
+                                            <?php echo gatewayinfo($row['gateway_send'],"name"); ?> <?php echo $lang['details']; ?></span></td>
+                                    <td><span class="pull-right"></span></td>
+                                </tr>
+                                <?php echo $account_data; ?>
+                                <tr>
+                                    <td colspan="2"><br></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="pull-left"><?php echo $lang['enter_payment_amount']; ?></span></td>
+                                    <td><span class="pull-right"><?php echo $amount; ?> <?php echo $currency; ?></span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="pull-left"><?php echo $lang['enter_payment_description']; ?></span></td>
+                                    <td><span class="pull-right">Exchange <?php echo $row['amount_send']; ?> <?php echo $currency; ?>
+              (<?php echo $row['id']; ?>)</span></td>
+                                </tr>
+                            </table>
+                            <div id="timer"></div>
+                            <div class="form-group">
+                                <label><?php echo $lang['enter_transaction_number']; ?></label>
+                                <input type="text" class="form-control" name="transaction_id">
+                            </div>
+                            <button type="button" onclick="bit_confirm_transaction('<?php echo $row['id']; ?>');"
+                                    class="btn btn-primary btn-block"><?php echo $lang['btn_confirm_transaction']; ?></button>
+                        </form>
+                    </div>
+                </div>
+                <?php
+            } else {
+                echo error("Мы не поддерживаем этот шлюз. Пожалуйста, свяжитесь с администратором.");
+            }
+
 	}
 } else {
 	echo error("Что-то пошло не так... Пожалуйста, обновите страницу.");

@@ -362,7 +362,7 @@
                             </div>
                         </div>
                         <div>
-                            <form class="p-2" id="bit_exchange_form">
+                            <form class="p-4" id="bit_exchange_form" style="background:#fff;">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="row">
@@ -455,14 +455,16 @@
                                             </button>
                                         </center>
                                         <div style="text-align: center">
-                                            <div id="bit_exchange_box" style="margin-top: 24px;"></div>
+                                            <div id="bit_exchange_box" style="margin-top: 24px;background: #fff;"></div>
                                             <div id="bit_exchange_results" style="margin-top: 24px;"></div>
                                         </div>
 
                                     </div>
                                 </div>
 
+
                             </form>
+
                             <div id="bit_exchange_box" style="margin-top: 24px;"></div>
                         </div>
                     </div>

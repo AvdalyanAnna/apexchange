@@ -53,7 +53,15 @@
 
     .disabled{
         cursor: no-drop;
-    }</style>
+    }
+    #bit_exchange_box .row{
+        padding: 20px;
+    }
+
+    .d-none{
+        display: none;
+    }
+    </style>
 </head>
 <body>
 

@@ -6,11 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="1fcb539e-6cae-4410-9fc1-9d4b1994fa69" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/sources/admin/currencies.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/sources/admin/currencies.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/sources/admin/gateways.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/sources/admin/gateways.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/BitExchanger.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/BitExchanger.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/functions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footer.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requests/bit_exchange_step_2.php" beforeDir="false" afterPath="$PROJECT_DIR$/requests/bit_exchange_step_2.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requests/bit_exchange_step_3.php" beforeDir="false" afterPath="$PROJECT_DIR$/requests/bit_exchange_step_3.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requests/bit_make_exchange.php" beforeDir="false" afterPath="$PROJECT_DIR$/requests/bit_make_exchange.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/sources/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/homepage.php" beforeDir="false" afterPath="$PROJECT_DIR$/sources/homepage.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,6 +154,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -163,6 +170,11 @@
       <updated>1660937919986</updated>
       <workItem from="1660937921139" duration="20912000" />
       <workItem from="1661012962479" duration="4010000" />
+      <workItem from="1661455794465" duration="1388000" />
+      <workItem from="1661688209802" duration="6061000" />
+      <workItem from="1662059575925" duration="2675000" />
+      <workItem from="1662124041252" duration="2079000" />
+      <workItem from="1662547141528" duration="2304000" />
     </task>
     <servers />
   </component>
@@ -207,6 +219,17 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/requests/bit_exchange_step_3.php</url>
+          <line>7</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/.htaccess">

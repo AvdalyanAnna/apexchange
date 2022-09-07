@@ -71,7 +71,7 @@ if(empty($bit_rate_from) or empty($bit_rate_to)) {
                     $field_number = $field['field_number']+1;
                     $fields .= '<div class="form-group">
 								<label>'.$field[field_name].'</label>
-								<input type="text" class="form-control input-lg form_style_1" name="bit_u_field_'.$field_number.'">
+								<input type="text" class="form-control input-lg form_style_1" name="bit_u_field_2">
 							</div>';
                 }
             }
@@ -175,7 +175,8 @@ if(empty($bit_rate_from) or empty($bit_rate_to)) {
 				</div>
 				<div class="col-md-2"></div>
 			</div>';
-	} elseif($receive == "Moneygram" or $receive == "Western Union") {
+	}
+    elseif($receive == "Moneygram" or $receive == "Western Union") {
 		$html_form = '<div id="bit_exchange_results"></div>
 			<div class="row">
 				<div class="col-md-2"></div>
@@ -209,7 +210,8 @@ if(empty($bit_rate_from) or empty($bit_rate_to)) {
 				</div>
 				<div class="col-md-2"></div>
 			</div>';
-	} elseif($receive == "Bitcoin" or $receive == "Litecoin" or $receive == "Dogecoin" or $receive == "Dash" or $receive == "Peercoin" or $receive == "Ethereum" or $receive == "TheBillioncoin") {
+	}
+    elseif($receive == "Bitcoin" or $receive == "Litecoin" or $receive == "Dogecoin" or $receive == "Dash" or $receive == "Peercoin" or $receive == "Ethereum" or $receive == "TheBillioncoin") {
 		$html_form = '<div id="bit_exchange_results"></div>
 			<div class="row">
 				<div class="col-md-2"></div>
@@ -239,7 +241,8 @@ if(empty($bit_rate_from) or empty($bit_rate_to)) {
 				</div>
 				<div class="col-md-2"></div>
 			</div>';
-	} else {
+	}
+    else {
 		$fields = '';
 		$check = $db->query("SELECT * FROM bit_gateways WHERE name='$receive' and external_gateway='1'");
 		if($check->num_rows>0) {

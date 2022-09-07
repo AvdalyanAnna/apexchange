@@ -6,6 +6,7 @@ $(document).ready(function() {
 });
 
 function bit_exchange_step_1() {
+	alert(1);
 	var login_to_exchange = $("#bit_login_to_exchange").val();
 	var ses_uid = $("#bit_ses_uid").val();
 	if(login_to_exchange == "1") {
@@ -56,7 +57,11 @@ function bit_exchange_step_3() {
 	});
 }
 
+
+
+
 function bit_make_exchange(id) {
+
 	var url = $("#url").val();
 	var data_url = url + "requests/bit_make_exchange.php?id="+id;
 	$.ajax({
@@ -65,6 +70,7 @@ function bit_make_exchange(id) {
 		dataType: "html",
 		success: function (data) {
 			$("#bit_exchange_box").html(data);
+
 		}
 	});
 }
