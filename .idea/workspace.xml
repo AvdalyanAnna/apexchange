@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fcb539e-6cae-4410-9fc1-9d4b1994fa69" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requests/bit_exchange_step_2.php" beforeDir="false" afterPath="$PROJECT_DIR$/requests/bit_exchange_step_2.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requests/bit_exchange_step_3.php" beforeDir="false" afterPath="$PROJECT_DIR$/requests/bit_exchange_step_3.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requests/bit_make_exchange.php" beforeDir="false" afterPath="$PROJECT_DIR$/requests/bit_make_exchange.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/sources/admin/gateways.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/sources/admin/gateways.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,6 +171,7 @@
       <workItem from="1662644153475" duration="2714000" />
       <workItem from="1662670852611" duration="621000" />
       <workItem from="1662732617792" duration="3101000" />
+      <workItem from="1662843079499" duration="3753000" />
     </task>
     <servers />
   </component>

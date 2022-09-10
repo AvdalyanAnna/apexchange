@@ -704,21 +704,29 @@ if ($b == "add") {
                     <input type="text" class="form-control" disabled
                            value="<?php echo $row['name'] . " " . $row['currency']; ?>">
                 </div>
-                <?php if (currencyinfo($row['currency'],'type') == 'coin'): ?>
-                <div class="form-group">
-                    <label>QR set</label>
-                    <select class="form-control" name="qr_set">
-                        <option value="bitcoincash" <?php if ($row['qr_set'] == 'bitcoincash') :?> selected <?php endif ;?> >Bitcoin Cash</option>
-                        <option value="bitcoin" <?php if ($row['qr_set'] == 'bitcoin') :?> selected <?php endif ;?> >Bitcoin</option>
-                        <option value="ethereum" <?php if ($row['qr_set'] == 'ethereum') :?> selected <?php endif ;?> >Ethereum</option>
-                        <option value="solana" <?php if ($row['qr_set'] == 'solana') :?> selected <?php endif ;?> >Solana</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>QR address</label>
-                    <input type="text" class="form-control" name="qr_address" value="<?= $row['qr_address'] ;?>">
-                </div>
-                <?php endif ;?>
+                <?php if (currencyinfo($row['currency'], 'type') == 'coin'): ?>
+                    <div class="form-group">
+                        <label>QR set</label>
+                        <select class="form-control" name="qr_set">
+                            <option value="bitcoincash" <?php if ($row['qr_set'] == 'bitcoincash') : ?> selected <?php endif; ?> >
+                                Bitcoin Cash
+                            </option>
+                            <option value="bitcoin" <?php if ($row['qr_set'] == 'bitcoin') : ?> selected <?php endif; ?> >
+                                Bitcoin
+                            </option>
+                            <option value="ethereum" <?php if ($row['qr_set'] == 'ethereum') : ?> selected <?php endif; ?> >
+                                Ethereum
+                            </option>
+                            <option value="solana" <?php if ($row['qr_set'] == 'solana') : ?> selected <?php endif; ?> >
+                                Solana
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>QR address</label>
+                        <input type="text" class="form-control" name="qr_address" value="<?= $row['qr_address']; ?>">
+                    </div>
+                <?php endif; ?>
                 <div class="form-group">
                     <label>Minimal amount for exchange</label>
                     <input type="text" class="form-control" name="min_amount" value="<?php echo $row['min_amount']; ?>">
@@ -1064,16 +1072,16 @@ if ($b == "add") {
                         } ?>> To be the default for receiving homepage
                     </label>
                 </div>
-                <?php if (currencyinfo($row['currency'],'type') == 'coin'): ?>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="show_qr"
-                               value="yes" <?php if ($row['show_qr'] == "1") {
-                            echo 'checked';
-                        } ?>> Show QR code
-                    </label>
-                </div>
-                <?php endif;?>
+                <?php if (currencyinfo($row['currency'], 'type') == 'coin'): ?>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="show_qr"
+                                   value="yes" <?php if ($row['show_qr'] == "1") {
+                                echo 'checked';
+                            } ?>> Show QR code
+                        </label>
+                    </div>
+                <?php endif; ?>
                 <button type="submit" class="btn btn-primary" name="btn_save"><i class="fa fa-check"></i> Save changes
                 </button>
             </form>
@@ -1129,6 +1137,7 @@ if ($b == "add") {
                 $field_10 = protect($_POST['field_10']);
                 $fee = protect($_POST['fee']);
                 $extra_fee = protect($_POST['extra_fee']);
+
                 if (isset($_POST['include_fee'])) {
                     $include_fee = '1';
                 } else {
@@ -1159,8 +1168,10 @@ if ($b == "add") {
                 } else {
                     $show_qr = '0';
                 }
+
                 if (empty($min_amount) or empty($max_amount) or empty($reserve) or empty($fee) or empty($a_field_1)) {
                     echo error("All fields are required.");
+
                 } elseif (!is_numeric($min_amount)) {
                     echo error("Please enter minimal amount with numbers.");
                 } elseif (!is_numeric($max_amount)) {
@@ -1170,6 +1181,8 @@ if ($b == "add") {
                 } elseif (!is_numeric($fee)) {
                     echo error("Please enter fee with numbers.");
                 } else {
+
+
                     foreach ($_POST['field'] as $k => $v) {
                         if (!empty($v)) {
                             $check = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$row[id]' and field_number='$k'");
@@ -1189,6 +1202,31 @@ if ($b == "add") {
                     $update = $db->query("UPDATE bit_gateways SET min_amount='$min_amount',include_fee='$include_fee',extra_fee='$extra_fee',fee='$fee',max_amount='$max_amount',reserve='$reserve',allow_send='$allow_send',allow_receive='$allow_receive',default_send='$default_send',default_receive='$default_receive',show_qr='$show_qr',qr_address='$qr_address',qr_set='$qr_set',a_field_1='$a_field_1',a_field_2='$a_field_2',a_field_3='$a_field_3',a_field_4='$a_field_4',a_field_5='$a_field_5',a_field_6='$a_field_6',a_field_7='$a_field_7',a_field_8='$a_field_8',a_field_9='$a_field_9',a_field_10='$a_field_10' WHERE id='$row[id]'");
                     $query = $db->query("SELECT * FROM bit_gateways WHERE id='$row[id]'");
                     $row = $query->fetch_assoc();
+
+                    if ($_POST['qiwi'] === 'yes') {
+                        $qiwiWallet = $db->query("SELECT * FROM bit_qiwi_wallet");
+                        if ($qiwiWallet->num_rows > 0) {
+                            for ($i = 0; $i < $qiwiWallet->num_rows; $i++) {
+                                $item = $_POST['qiwiWallet'][$i];
+                                $count = $i + 1;
+                                $update = $db->query("UPDATE bit_qiwi_wallet SET wallet='$item' where id='$count'");
+                            }
+                            if ($qiwiWallet->num_rows < count($_POST['qiwiWallet'])) {
+                                for ($i = $qiwiWallet->num_rows; $i < count($_POST['qiwiWallet']); $i++) {
+                                    $item = $_POST['qiwiWallet'][$i];
+                                    if ($item !== '+7') {
+                                        $insert = $db->query("INSERT `bit_qiwi_wallet` (`wallet`) VALUES ('$item')");
+                                    }
+                                }
+                            }
+                        } else {
+                            for ($i = 0; $i < count($_POST['qiwiWallet']); $i++) {
+                                $item = $_POST['qiwiWallet'][$i];
+                                $insert = $db->query("INSERT `bit_qiwi_wallet` (`wallet`) VALUES ('$item')");
+
+                            }
+                        }
+                    }
                     echo success("Your changes was saved successfully.");
                 }
             }
@@ -1200,21 +1238,29 @@ if ($b == "add") {
                     <input type="text" class="form-control" disabled
                            value="<?php echo $row['name'] . " " . $row['currency']; ?>">
                 </div>
-                <?php if (currencyinfo($row['currency'],'type') == 'coin'): ?>
-                <div class="form-group">
-                    <label>QR set</label>
-                    <select class="form-control" name="qr_set">
-                        <option value="bitcoincash" <?php if ($row['qr_set'] == 'bitcoincash') :?> selected <?php endif ;?> >Bitcoin Cash</option>
-                        <option value="bitcoin" <?php if ($row['qr_set'] == 'bitcoin') :?> selected <?php endif ;?> >Bitcoin</option>
-                        <option value="ethereum" <?php if ($row['qr_set'] == 'ethereum') :?> selected <?php endif ;?> >Ethereum</option>
-                        <option value="solana" <?php if ($row['qr_set'] == 'solana') :?> selected <?php endif ;?> >Solana</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>QR address</label>
-                    <input type="text" class="form-control" name="qr_address" value="<?= $row['qr_address'] ;?>">
-                </div>
-                <?php endif;?>
+                <?php if (currencyinfo($row['currency'], 'type') == 'coin'): ?>
+                    <div class="form-group">
+                        <label>QR set</label>
+                        <select class="form-control" name="qr_set">
+                            <option value="bitcoincash" <?php if ($row['qr_set'] == 'bitcoincash') : ?> selected <?php endif; ?> >
+                                Bitcoin Cash
+                            </option>
+                            <option value="bitcoin" <?php if ($row['qr_set'] == 'bitcoin') : ?> selected <?php endif; ?> >
+                                Bitcoin
+                            </option>
+                            <option value="ethereum" <?php if ($row['qr_set'] == 'ethereum') : ?> selected <?php endif; ?> >
+                                Ethereum
+                            </option>
+                            <option value="solana" <?php if ($row['qr_set'] == 'solana') : ?> selected <?php endif; ?> >
+                                Solana
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>QR address</label>
+                        <input type="text" class="form-control" name="qr_address" value="<?= $row['qr_address']; ?>">
+                    </div>
+                <?php endif; ?>
                 <div class="form-group">
                     <label>Minimal amount for exchange</label>
                     <input type="text" class="form-control" name="min_amount" value="<?php echo $row['min_amount']; ?>">
@@ -1248,136 +1294,217 @@ if ($b == "add") {
                     ?>
                     <div class="row">
                         <div class="col-md-12"><?php echo info("<b>Name of the field</b> will be required by user when make exchange by this gateway. For example if you adding Bank Gateway enter for field name <b>SGBank Name</b> and etc.. For <b>Value of the field</b> need to enter your data for field, when user sell to this gateway will show data for payment in fields you are entered. You can add up to 10 fields."); ?></div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 1</label>
-                                <input type="text" class="form-control" name="field[1]" value="<?php echo $f[1]; ?>">
+
+                        <?php if ($row['name'] === 'Qiwi') { ?>
+                            <div class="qiwi-wallets">
+                                <?php $qiwiWallet = $db->query("SELECT * FROM bit_qiwi_wallet");
+                                if ($qiwiWallet->num_rows > 0) { ?>
+                                    <?php while ($field = $qiwiWallet->fetch_assoc()) { ?>
+                                        <div class="col-md-6 col-lg-6 qiwi-wallets-item"
+                                             data-id="<?php echo $field['id'] ?>">
+                                            <div class="form-group">
+                                                <label>Name of the Field <?php echo $field['id'] ?></label>
+                                                <input type="text" class="form-control" name="qiwiWallet[]"
+                                                       value="<?php echo $field['wallet'] ?>"">
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+
+                                    <div class="col-md-6 col-lg-6 qiwi-wallets-item"
+                                         data-id="<?php echo $qiwiWallet->num_rows + 1 ?>">
+                                        <div class="form-group">
+                                            <label>Name of the Field <?php echo $qiwiWallet->num_rows + 1 ?></label>
+                                            <input type="text" class="form-control" name="qiwiWallet[]" value="+7">
+                                        </div>
+                                    </div>
+                                    <div class="qiwi-wallets__inner"></div>
+                                    <input type="hidden" class="form-control" name="a_field_1" value="+7">
+                                    <input type="hidden" class="form-control" name="qiwi" value="yes">
+                                    <div class="col-lg-12">
+                                        <button type="submit" class="btn btn-primary qiwi-wallets-add">
+                                            <i class="fa fa-plus"></i> add new
+                                        </button>
+                                    </div>
+                                <?php } else { ?>
+                                    <input type="hidden" class="form-control" name="a_field_1" value="+7">
+                                    <input type="hidden" class="form-control" name="qiwi" value="yes">
+                                    <div class="col-md-6 col-lg-6 qiwi-wallets-item" data-id="1">
+                                        <div class="form-group">
+                                            <label>Name of the Field 1</label>
+                                            <input type="text" class="form-control" name="qiwiWallet[]">
+                                        </div>
+                                    </div>
+                                    <div class="qiwi-wallets__inner"></div>
+
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary qiwi-wallets-add">
+                                            <i class="fa fa-plus"></i> add new
+                                        </button>
+                                    </div>
+                                <?php } ?>
+                                <script
+                                        src="https://code.jquery.com/jquery-3.6.1.min.js"
+                                        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+                                        crossorigin="anonymous"></script>
+                                <script>
+                                    $(function () {
+                                        $('.qiwi-wallets-add').on('click', function (e) {
+                                            e.preventDefault()
+                                            const count = $('.qiwi-wallets-item').length + 1
+                                            let html = `<div class="col-md-6 col-lg-6 qiwi-wallets-item" data-id="${count}">
+                                                            <div class="form-group">
+                                                                <label>Name of the Field ${count}</label>
+                                                                <input type="text" class="form-control" name="qiwiWallet[]" value="+7">
+                                                            </div>
+                                                        </div>`
+                                            $('.qiwi-wallets__inner').append(html)
+                                        })
+
+                                    })
+                                </script>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 1</label>
-                                <input type="text" class="form-control" name="a_field_1"
-                                       value="<?php echo $row['a_field_1']; ?>">
+                        <?php } else { ?>
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 1</label>
+                                    <input type="text" class="form-control" name="field[1]"
+                                           value="<?php echo $f[1]; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 2</label>
-                                <input type="text" class="form-control" name="field[2]" value="<?php echo $f[2]; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 1</label>
+                                    <input type="text" class="form-control" name="a_field_1"
+                                           value="<?php echo $row['a_field_1']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 2</label>
-                                <input type="text" class="form-control" name="a_field_2"
-                                       value="<?php echo $row['a_field_2']; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 2</label>
+                                    <input type="text" class="form-control" name="field[2]"
+                                           value="<?php echo $f[2]; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 3</label>
-                                <input type="text" class="form-control" name="field[3]" value="<?php echo $f[3]; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 2</label>
+                                    <input type="text" class="form-control" name="a_field_2"
+                                           value="<?php echo $row['a_field_2']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 3</label>
-                                <input type="text" class="form-control" name="a_field_3"
-                                       value="<?php echo $row['a_field_3']; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 3</label>
+                                    <input type="text" class="form-control" name="field[3]"
+                                           value="<?php echo $f[3]; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 4</label>
-                                <input type="text" class="form-control" name="field[4]" value="<?php echo $f[4]; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 3</label>
+                                    <input type="text" class="form-control" name="a_field_3"
+                                           value="<?php echo $row['a_field_3']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 4</label>
-                                <input type="text" class="form-control" name="a_field_4"
-                                       value="<?php echo $row['a_field_4']; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 4</label>
+                                    <input type="text" class="form-control" name="field[4]"
+                                           value="<?php echo $f[4]; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 5</label>
-                                <input type="text" class="form-control" name="field[5]" value="<?php echo $f[5]; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 4</label>
+                                    <input type="text" class="form-control" name="a_field_4"
+                                           value="<?php echo $row['a_field_4']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 5</label>
-                                <input type="text" class="form-control" name="a_field_5"
-                                       value="<?php echo $row['a_field_5']; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 5</label>
+                                    <input type="text" class="form-control" name="field[5]"
+                                           value="<?php echo $f[5]; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 6</label>
-                                <input type="text" class="form-control" name="field[6]" value="<?php echo $f[6]; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 5</label>
+                                    <input type="text" class="form-control" name="a_field_5"
+                                           value="<?php echo $row['a_field_5']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 6</label>
-                                <input type="text" class="form-control" name="a_field_6"
-                                       value="<?php echo $row['a_field_6']; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 6</label>
+                                    <input type="text" class="form-control" name="field[6]"
+                                           value="<?php echo $f[6]; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 7</label>
-                                <input type="text" class="form-control" name="field[7]" value="<?php echo $f[7]; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 6</label>
+                                    <input type="text" class="form-control" name="a_field_6"
+                                           value="<?php echo $row['a_field_6']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 7</label>
-                                <input type="text" class="form-control" name="a_field_7"
-                                       value="<?php echo $row['a_field_7']; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 7</label>
+                                    <input type="text" class="form-control" name="field[7]"
+                                           value="<?php echo $f[7]; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 8</label>
-                                <input type="text" class="form-control" name="field[8]" value="<?php echo $f[8]; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 7</label>
+                                    <input type="text" class="form-control" name="a_field_7"
+                                           value="<?php echo $row['a_field_7']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 8</label>
-                                <input type="text" class="form-control" name="a_field_8"
-                                       value="<?php echo $row['a_field_8']; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 8</label>
+                                    <input type="text" class="form-control" name="field[8]"
+                                           value="<?php echo $f[8]; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 9</label>
-                                <input type="text" class="form-control" name="field[9]" value="<?php echo $f[9]; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 8</label>
+                                    <input type="text" class="form-control" name="a_field_8"
+                                           value="<?php echo $row['a_field_8']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 9</label>
-                                <input type="text" class="form-control" name="a_field_9"
-                                       value="<?php echo $row['a_field_9']; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 9</label>
+                                    <input type="text" class="form-control" name="field[9]"
+                                           value="<?php echo $f[9]; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Name of the Field 10</label>
-                                <input type="text" class="form-control" name="field[10]" value="<?php echo $f[10]; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 9</label>
+                                    <input type="text" class="form-control" name="a_field_9"
+                                           value="<?php echo $row['a_field_9']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Value of the Field 10</label>
-                                <input type="text" class="form-control" name="a_field_10"
-                                       value="<?php echo $row['a_field_10']; ?>">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Name of the Field 10</label>
+                                    <input type="text" class="form-control" name="field[10]"
+                                           value="<?php echo $f[10]; ?>">
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Value of the Field 10</label>
+                                    <input type="text" class="form-control" name="a_field_10"
+                                           value="<?php echo $row['a_field_10']; ?>">
+                                </div>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="checkbox">
@@ -1423,16 +1550,16 @@ if ($b == "add") {
                         } ?>> To be the default for receiving homepage
                     </label>
                 </div>
-                <?php if (currencyinfo($row['currency'],'type') == 'coin'): ?>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="show_qr"
-                               value="yes" <?php if ($row['show_qr'] == "1") {
-                            echo 'checked';
-                        } ?>> Show QR code
-                    </label>
-                </div>
-                <?php endif;?>
+                <?php if (currencyinfo($row['currency'], 'type') == 'coin'): ?>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="show_qr"
+                                   value="yes" <?php if ($row['show_qr'] == "1") {
+                                echo 'checked';
+                            } ?>> Show QR code
+                        </label>
+                    </div>
+                <?php endif; ?>
                 <button type="submit" class="btn btn-primary" name="btn_save"><i class="fa fa-check"></i> Save changes
                 </button>
             </form>
