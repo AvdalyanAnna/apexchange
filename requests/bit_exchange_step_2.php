@@ -61,20 +61,23 @@ if(empty($bit_rate_from) or empty($bit_rate_to)) {
         $fields = '';
         $check = $db->query("SELECT * FROM bit_gateways WHERE name='$receive' and external_gateway='1'");
         if($check->num_rows>0) {
-            $r = $check->fetch_assoc();
-            $query = $db->query("SELECT MAX(field_number) AS max FROM bit_gateways_fields WHERE gateway_id='$r[id]' ");
-            $result = $query->fetch_assoc();
-            $number = rand(1,$result['max']);
-            $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' AND field_number='$number'  ORDER BY id")  ;
-            if($fieldsquery->num_rows>0) {
-                while($field = $fieldsquery->fetch_assoc()) {
-                    $field_number = $field['field_number']+1;
+//            $r = $check->fetch_assoc();
+//            $query = $db->query("SELECT last_qiwi_wallets  FROM bit_settings");
+//            $result = $query->fetch_assoc();
+//            $number = $result['last_qiwi_wallets'];
+//            if($number === 0){
+//
+//            }
+//            var_dump($result['last_qiwi_wallets']);die;
+//            $number = rand(1,$result['max']);
+//            $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' AND field_number='$number'  ORDER BY id")  ;
+//            if($fieldsquery->num_rows>0) {
+//                    $field_number = $field['field_number']+1;
                     $fields .= '<div class="form-group">
-								<label>'.$field[field_name].'</label>
+								<label>Кошелек QIWI</label>
 								<input type="text" class="form-control input-lg form_style_1" name="bit_u_field_2" value="+">
 							</div>';
-                }
-            }
+//            }
             $html_form = '<div id="bit_exchange_results"></div>
 				<div class="row">
 					<div class="col-md-2"></div>
