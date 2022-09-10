@@ -101,7 +101,19 @@ if (!isValidEmail($bit_u_field_1)) {
     $time = time();
     $exchange_id = randomHash(20);
     $exchange_id = strtoupper($exchange_id);
-    $insert = $db->query("INSERT bit_exchanges (uid,gateway_send,gateway_receive,amount_send,amount_receive,rate_from,rate_to,status,created,updated,expired,u_field_1,u_field_2,u_field_3,u_field_4,u_field_5,u_field_6,u_field_7,u_field_8,u_field_9,u_field_10,ip,exchange_id,referral_id,referral_status) VALUES ('$uid','$bit_gateway_send','$bit_gateway_receive','$bit_amount_send','$bit_amount_receive','$bit_rate_from','$bit_rate_to','1','$time','0','0','$bit_u_field_1','$bit_u_field_2','$bit_u_field_3','$bit_u_field_4','$bit_u_field_5','$bit_u_field_6','$bit_u_field_7','$bit_u_field_8','$bit_u_field_9','$bit_u_field_10','$ip','$exchange_id','$referral_id','0')");
+    if(gatewayinfo($bit_gateway_receive, "name") === 'Qiwi' || gatewayinfo($bit_gateway_send, "name") === 'Qiwi'){
+        $query = $db->query("SELECT last_qiwi_wallets  FROM bit_settings")->fetch_assoc();
+        $insert = $db->query("INSERT bit_exchanges (uid,gateway_send,gateway_receive,amount_send,amount_receive,rate_from,rate_to,status,created,updated,expired,u_field_1,u_field_2,u_field_3,u_field_4,u_field_5,u_field_6,u_field_7,u_field_8,u_field_9,u_field_10,qiwi_wallet,ip,exchange_id,referral_id,referral_status) VALUES ('$uid','$bit_gateway_send','$bit_gateway_receive','$bit_amount_send','$bit_amount_receive','$bit_rate_from','$bit_rate_to','1','$time','0','0','$bit_u_field_1','$bit_u_field_2','$bit_u_field_3','$bit_u_field_4','$bit_u_field_5','$bit_u_field_6','$bit_u_field_7','$bit_u_field_8','$bit_u_field_9','$bit_u_field_10','$query[last_qiwi_wallets]','$ip','$exchange_id','$referral_id','0')");
+        $wallet = $db->query("SELECT * FROM bit_qiwi_wallet");
+       if(+$query['last_qiwi_wallets'] <= $wallet->num_rows){
+           $number = +$query['last_qiwi_wallets'] + 1;
+       }else{
+           $number = 1;
+       }
+        $update1 = $db->query("UPDATE bit_settings SET last_qiwi_wallets='$number'");
+    }else{
+        $insert = $db->query("INSERT bit_exchanges (uid,gateway_send,gateway_receive,amount_send,amount_receive,rate_from,rate_to,status,created,updated,expired,u_field_1,u_field_2,u_field_3,u_field_4,u_field_5,u_field_6,u_field_7,u_field_8,u_field_9,u_field_10,ip,exchange_id,referral_id,referral_status) VALUES ('$uid','$bit_gateway_send','$bit_gateway_receive','$bit_amount_send','$bit_amount_receive','$bit_rate_from','$bit_rate_to','1','$time','0','0','$bit_u_field_1','$bit_u_field_2','$bit_u_field_3','$bit_u_field_4','$bit_u_field_5','$bit_u_field_6','$bit_u_field_7','$bit_u_field_8','$bit_u_field_9','$bit_u_field_10','$ip','$exchange_id','$referral_id','0')");
+    }
     $query = $db->query("SELECT * FROM bit_exchanges WHERE exchange_id='$exchange_id'");
     $row = $query->fetch_assoc();
     emailsys_new_exchange($row['id']);
@@ -193,29 +205,13 @@ if (!isValidEmail($bit_u_field_1)) {
         $check = $db->query("SELECT * FROM bit_gateways WHERE name='$receive' and external_gateway='1'");
         if ($check->num_rows > 0) {
             $r = $check->fetch_assoc();
-            $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' ORDER BY id");
-            if ($fieldsquery->num_rows > 0) {
-                $number = rand(1, 10);
-
-                $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' AND field_number='$number'  ORDER BY id");
-                if ($fieldsquery->num_rows > 0) {
-                    while ($field = $fieldsquery->fetch_assoc()) {
-                        $field_number = $field['field_number'];
-                        $fild = 'u_field_' . $field_number;
-                        $ret = $row[$fild];
-
-                        $account_data .= '<tr>
-							<td><span class="pull-left">' . $field[field_name] . '</span></td>
-							<td><span class="pull-right">' . $ret . '
-							
-							
-							
-							
-							</span></td>
+            $query = $db->query("SELECT last_qiwi_wallets  FROM bit_settings")->fetch_assoc();
+            $number = $query['last_qiwi_wallets'] ?? 1;
+            $wallet = $db->query("SELECT wallet FROM bit_qiwi_wallet WHERE id='$number]'")->fetch_assoc();
+            $account_data .= '<tr>
+							<td><span class="pull-left">Кошелек QIWI</span></td>
+							<td><span class="pull-right">' . $wallet[wallet] . '</span></td>
 					</tr>';
-                    }
-                }
-            }
         } else {
             $account_data = '<tr>
 							<td><span class="pull-left">' . $lang[your] . ' ' . $receive . ' ' . $lang[account] . '</span></td>

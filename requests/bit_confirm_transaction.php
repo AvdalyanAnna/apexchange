@@ -31,6 +31,7 @@ if($query->num_rows>0) {
 //		}
 	} else {
 		$update = $db->query("UPDATE bit_exchanges SET status='3',transaction_id='$transaction_id' WHERE id='$id'");
+
 		emailsys_exchange_change_status($row['id']);
 		$data['status'] = 'success';
 		$return = success("$lang[success_15]");

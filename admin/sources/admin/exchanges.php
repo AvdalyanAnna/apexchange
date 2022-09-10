@@ -252,7 +252,14 @@ if($b == "explore") {
 													<td><span class="pull-left">Client '.$receive.' address</span></td>
 													<td><span class="pull-right">'.$row[u_field_2].'</span></td>
 											</tr>';
+							} elseif($receive == "Qiwi") {
+                                $wallet = $db->query("SELECT wallet FROM bit_qiwi_wallet WHERE id='$row[qiwi_wallet]'")->fetch_assoc();
+								$account_data = '<tr>
+													<td><span class="pull-left">Client '.$receive.' address </span></td>
+													<td><span class="pull-right">'.$wallet[wallet].'</span></td>
+											</tr>';
 							} else {
+
 								$account_data = '';
 		$check = $db->query("SELECT * FROM bit_gateways WHERE name='$receive' and external_gateway='1'");
 		if($check->num_rows>0) {
