@@ -14,32 +14,61 @@ include("../includes/functions.php");
 include(getLanguage($settings['url'],null,2));
 $id = protect($_GET['id']);
 $query = $db->query("SELECT * FROM bit_exchanges WHERE id='$id'");
-if($query->num_rows>0) {	
-	$row = $query->fetch_assoc();
-	$update = $db->query("UPDATE bit_exchanges SET status='2' WHERE id='$id'");
+if($query->num_rows>0) {
+
+    $row = $query->fetch_assoc();
+    $update = $db->query("UPDATE bit_exchanges SET status='2' WHERE id='$id'");
 	$gateway_send = gatewayinfo($row['gateway_send'],"name");
 	if(gatewayinfo($row[gateway_send],"include_fee") == "1") {
-		if (strpos(gatewayinfo($row[gateway_send],"extra_fee"),'%') !== false) { 
-			$amount = $row['amount_send'];
-			$explode = explode("%",gatewayinfo($row[gateway_send],"extra_fee"));
-			$fee_percent = 100+$explode[0];
-			$new_amount = ($amount * 100) / $fee_percent;
-			$new_amount = round($new_amount,2);
-			$fee_amount = $amount-$new_amount;
-			$amount = $amount+$fee_amount;
-			$fee_text = gatewayinfo($row[gateway_send],"extra_fee");
-		} else {
-			$amount = $row['amount_send'] + gatewayinfo($row[gateway_send],"extra_fee");
-			$fee_text = gatewayinfo($row[gateway_send],"extra_fee")." ".gatewayinfo($row[gateway_send],"currency");
-		}
-		$currency = gatewayinfo($row[gateway_send],"currency");
+        if( gatewayinfo($row['gateway_send'],"name") === 'Qiwi'|| gatewayinfo($row['gateway_receive'],"name") === 'Qiwi' ){
+            if($row['u_field_2'][0].$row['u_field_2'][1] === '+7'){
+                $amount = $row['amount_send'];
+                $currency = gatewayinfo($row[gateway_send],"currency");
+                $fee_text = '0';
+            }else{
+//                if (strpos(gatewayinfo($row[gateway_send],"extra_fee"),'%') !== false) {
+//
+//                    $amount = $row['amount_send'];
+//                    $explode = explode("%",gatewayinfo($row[gateway_send],"extra_fee"));
+//                    $fee_percent = 100+$explode[0];
+//                    $new_amount = ($amount * 100) / $fee_percent;
+//                    $new_amount = round($new_amount,2);
+//                    $fee_amount = $amount-$new_amount;
+//                    $amount = $amount-$fee_amount;
+//                    $fee_text = gatewayinfo($row[gateway_send],"extra_fee");
+//                } else {
+//                    $amount = $row['amount_send'] - gatewayinfo($row[gateway_send],"extra_fee");
+//                    $fee_text = gatewayinfo($row[gateway_send],"extra_fee")." ".gatewayinfo($row[gateway_send],"currency");
+//                }
+                $amount = $row['amount_send'];
+                $fee_text = gatewayinfo($row[gateway_send],"extra_fee");
+                $currency = gatewayinfo($row[gateway_send],"currency");
+            }
+        }
+         else{
+            if (strpos(gatewayinfo($row[gateway_send],"extra_fee"),'%') !== false) {
+
+                $amount = $row['amount_send'];
+                $explode = explode("%",gatewayinfo($row[gateway_send],"extra_fee"));
+                $fee_percent = 100+$explode[0];
+                $new_amount = ($amount * 100) / $fee_percent;
+                $new_amount = round($new_amount,2);
+                $fee_amount = $amount-$new_amount;
+                $amount = $amount+$fee_amount;
+                $fee_text = gatewayinfo($row[gateway_send],"extra_fee");
+            } else {
+                $amount = $row['amount_send'] + gatewayinfo($row[gateway_send],"extra_fee");
+                $fee_text = gatewayinfo($row[gateway_send],"extra_fee")." ".gatewayinfo($row[gateway_send],"currency");
+            }
+            $currency = gatewayinfo($row[gateway_send],"currency");
+        }
 	} else {
-		$amount = $row['amount_send'];
+
+        $amount = $row['amount_send'];
 		$currency = gatewayinfo($row[gateway_send],"currency");
 		$fee_text = '0';
 	}
-	if($gateway_send == "Bank Transfer") {
-	?>
+	if($gateway_send == "Bank Transfer") { ?>
 <div class="row">
   <div class="col-md-12">
     <div id="bit_transaction_results">

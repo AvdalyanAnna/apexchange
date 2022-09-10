@@ -11,10 +11,10 @@ $db->set_charset("utf8");
 $settingsQuery = $db->query("SELECT * FROM bit_settings ORDER BY id DESC LIMIT 1");
 $settings = $settingsQuery->fetch_assoc();
 include("../includes/functions.php");
-include(getLanguage($settings['url'],null,2));
+include(getLanguage($settings['url'], null, 2));
 $bit_gateway_send = protect($_POST['bit_gateway_send']);
 $bit_gateway_receive = protect($_POST['bit_gateway_receive']);
-$receive = gatewayinfo($bit_gateway_receive,"name");
+$receive = gatewayinfo($bit_gateway_receive, "name");
 $bit_amount_send = protect($_POST['bit_amount_send']);
 $bit_amount_receive = protect($_POST['bit_amount_receive']);
 $bit_rate_from = protect($_POST['bit_rate_from']);
@@ -31,91 +31,123 @@ $bit_u_field_7 = protect($_POST['bit_u_field_7']);
 $bit_u_field_8 = protect($_POST['bit_u_field_8']);
 $bit_u_field_9 = protect($_POST['bit_u_field_9']);
 $bit_u_field_10 = protect($_POST['bit_u_field_10']);
-if(!isValidEmail($bit_u_field_1)) {
+if (!isValidEmail($bit_u_field_1)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_38]");
-} elseif($receive == "Western Union" && empty($bit_u_field_2)) {
+    $data['msg'] = error("$lang[error_38]");
+} elseif ($receive == "Western Union" && empty($bit_u_field_2)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_39]");
-} elseif($receive == "Western Union" && empty($bit_u_field_3)) {
+    $data['msg'] = error("$lang[error_39]");
+} elseif ($receive == "Western Union" && empty($bit_u_field_3)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_40]");
-} elseif($receive == "Moneygram" && empty($bit_u_field_2)) {
+    $data['msg'] = error("$lang[error_40]");
+} elseif ($receive == "Moneygram" && empty($bit_u_field_2)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_39]");
-} elseif($receive == "Moneygram" && empty($bit_u_field_3)) {
+    $data['msg'] = error("$lang[error_39]");
+} elseif ($receive == "Moneygram" && empty($bit_u_field_3)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_40]");
-} elseif($receive == "Bank Transfer" && empty($bit_u_field_2)) {
+    $data['msg'] = error("$lang[error_40]");
+} elseif ($receive == "Bank Transfer" && empty($bit_u_field_2)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_39]");
-} elseif($receive == "Bank Transfer" && empty($bit_u_field_3)) {
+    $data['msg'] = error("$lang[error_39]");
+} elseif ($receive == "Bank Transfer" && empty($bit_u_field_3)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_40]");
-} elseif($receive == "Bank Transfer" && empty($bit_u_field_4)) {
+    $data['msg'] = error("$lang[error_40]");
+} elseif ($receive == "Bank Transfer" && empty($bit_u_field_4)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_41]");
-}  elseif($receive == "Bank Transfer" && empty($bit_u_field_5)) {
+    $data['msg'] = error("$lang[error_41]");
+} elseif ($receive == "Bank Transfer" && empty($bit_u_field_5)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_42]");
-}  elseif($receive == "Bank Transfer" && empty($bit_u_field_6)) {
+    $data['msg'] = error("$lang[error_42]");
+} elseif ($receive == "Bank Transfer" && empty($bit_u_field_6)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_43]");
-} elseif($receive == "Bitcoin" && empty($bit_u_field_2)) {
+    $data['msg'] = error("$lang[error_43]");
+} elseif ($receive == "Bitcoin" && empty($bit_u_field_2)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_44] $receive $lang[address].");
-} elseif($receive == "Litecoin" && empty($bit_u_field_2)) {
+    $data['msg'] = error("$lang[error_44] $receive $lang[address].");
+} elseif ($receive == "Litecoin" && empty($bit_u_field_2)) {
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_44] $receive $lang[address].");
-} elseif($receive == "Dogecoin" && empty($bit_u_field_2)) {
+    $data['msg'] = error("$lang[error_44] $receive $lang[address].");
+} elseif ($receive == "Dogecoin" && empty($bit_u_field_2)) {
 
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_44] $receive $lang[address].");
-} elseif($receive == "Dash" && empty($bit_u_field_2)) {
-	$data['status'] = 'error';
-	$data['msg'] = error("$lang[error_44] $receive $lang[address].");
-} elseif($receive == "Peercoin" && empty($bit_u_field_2)) {
-	$data['status'] = 'error';
-	$data['msg'] = error("$lang[error_44] $receive $lang[address].");
-} elseif($receive == "Ethereum" && empty($bit_u_field_2)) {
-	$data['status'] = 'error';
-	$data['msg'] = error("$lang[error_44] $receive $lang[address].");
-} elseif(empty($bit_u_field_2)) {
-    var_dump($_POST);die;
+    $data['msg'] = error("$lang[error_44] $receive $lang[address].");
+} elseif ($receive == "Dash" && empty($bit_u_field_2)) {
+    $data['status'] = 'error';
+    $data['msg'] = error("$lang[error_44] $receive $lang[address].");
+} elseif ($receive == "Peercoin" && empty($bit_u_field_2)) {
+    $data['status'] = 'error';
+    $data['msg'] = error("$lang[error_44] $receive $lang[address].");
+} elseif ($receive == "Ethereum" && empty($bit_u_field_2)) {
+    $data['status'] = 'error';
+    $data['msg'] = error("$lang[error_44] $receive $lang[address].");
+} elseif (empty($bit_u_field_2)) {
+    var_dump($_POST);
+    die;
 
     $data['status'] = 'error';
-	$data['msg'] = error("$lang[error_44] $receive $lang[account].");
+    $data['msg'] = error("$lang[error_44] $receive $lang[account].");
 } else {
-	if(checkSession()) { $uid = $_SESSION['bit_uid']; } else { $uid = 0; }
-	if($_SESSION['refid']) { $referral_id = $_SESSION['refid']; } else { $referral_id = 0; }
-	$ip = $_SERVER['REMOTE_ADDR'];
-	$time = time();
-	$exchange_id = randomHash(20);
-	$exchange_id = strtoupper($exchange_id);
-	$insert = $db->query("INSERT bit_exchanges (uid,gateway_send,gateway_receive,amount_send,amount_receive,rate_from,rate_to,status,created,updated,expired,u_field_1,u_field_2,u_field_3,u_field_4,u_field_5,u_field_6,u_field_7,u_field_8,u_field_9,u_field_10,ip,exchange_id,referral_id,referral_status) VALUES ('$uid','$bit_gateway_send','$bit_gateway_receive','$bit_amount_send','$bit_amount_receive','$bit_rate_from','$bit_rate_to','1','$time','0','0','$bit_u_field_1','$bit_u_field_2','$bit_u_field_3','$bit_u_field_4','$bit_u_field_5','$bit_u_field_6','$bit_u_field_7','$bit_u_field_8','$bit_u_field_9','$bit_u_field_10','$ip','$exchange_id','$referral_id','0')");
-	$query = $db->query("SELECT * FROM bit_exchanges WHERE exchange_id='$exchange_id'");
-	$row = $query->fetch_assoc();
-	emailsys_new_exchange($row['id']);
-	$_SESSION['bit_requested_exchange_id'] = $row['exchange_id'];
-	if( gatewayinfo($bit_gateway_receive,"name") === 'Qiwi' && $bit_u_field_2[0].$bit_u_field_2[1] === '+7'){
-        $amount = $bit_amount_send;
-        $currency = $bit_currency_from;
-        $fee_text = '0';
-    }else{
-
-        if(gatewayinfo($bit_gateway_send,"include_fee") == "1") {
-            if (strpos(gatewayinfo($bit_gateway_send,"extra_fee"),'%') !== false) {
-                $amount = $bit_amount_send;
-                $explode = explode("%",gatewayinfo($bit_gateway_send,"extra_fee"));
-                $fee_percent = 100+$explode[0];
-                $new_amount = ($amount * 100) / $fee_percent;
-                $new_amount = round($new_amount,2);
-                $fee_amount = $amount-$new_amount;
-                $amount = $amount+$fee_amount;
-                $fee_text = gatewayinfo($bit_gateway_send,"extra_fee");
+    if (checkSession()) {
+        $uid = $_SESSION['bit_uid'];
+    } else {
+        $uid = 0;
+    }
+    if ($_SESSION['refid']) {
+        $referral_id = $_SESSION['refid'];
+    } else {
+        $referral_id = 0;
+    }
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $time = time();
+    $exchange_id = randomHash(20);
+    $exchange_id = strtoupper($exchange_id);
+    $insert = $db->query("INSERT bit_exchanges (uid,gateway_send,gateway_receive,amount_send,amount_receive,rate_from,rate_to,status,created,updated,expired,u_field_1,u_field_2,u_field_3,u_field_4,u_field_5,u_field_6,u_field_7,u_field_8,u_field_9,u_field_10,ip,exchange_id,referral_id,referral_status) VALUES ('$uid','$bit_gateway_send','$bit_gateway_receive','$bit_amount_send','$bit_amount_receive','$bit_rate_from','$bit_rate_to','1','$time','0','0','$bit_u_field_1','$bit_u_field_2','$bit_u_field_3','$bit_u_field_4','$bit_u_field_5','$bit_u_field_6','$bit_u_field_7','$bit_u_field_8','$bit_u_field_9','$bit_u_field_10','$ip','$exchange_id','$referral_id','0')");
+    $query = $db->query("SELECT * FROM bit_exchanges WHERE exchange_id='$exchange_id'");
+    $row = $query->fetch_assoc();
+    emailsys_new_exchange($row['id']);
+    $_SESSION['bit_requested_exchange_id'] = $row['exchange_id'];
+    if (gatewayinfo($bit_gateway_receive, "name") === 'Qiwi' || gatewayinfo($bit_gateway_send, "name") === 'Qiwi') {
+        if ($bit_u_field_2[0] . $bit_u_field_2[1] === '+7') {
+            $amount = $bit_amount_send;
+            $currency = $bit_currency_from;
+            $fee_text = '0';
+        } else {
+            $amount = $bit_amount_send;
+            $currency = $bit_currency_from;
+            $fee_text = gatewayinfo($bit_gateway_send, "extra_fee");
+            if (strpos(gatewayinfo($bit_gateway_send, "extra_fee"), '%') !== false) {
+                $amount1 = $bit_amount_send;
+                $explode = explode("%", gatewayinfo($bit_gateway_send, "extra_fee"));
+                $fee_percent = 100 + $explode[0];
+                $new_amount = ($amount1 * 100) / $fee_percent;
+                $new_amount = round($new_amount, 2);
+                $fee_amount = $amount1 - $new_amount;
+                $amount1 = $amount1 - $fee_amount;
+                $fee_text1 = gatewayinfo($bit_gateway_send, "extra_fee");
             } else {
-                $amount = $bit_amount_send + gatewayinfo($bit_gateway_send,"extra_fee");
-                $fee_text = gatewayinfo($bit_gateway_send,"extra_fee")." ".gatewayinfo($bit_gateway_send,"currency");
+                $amount1 = $bit_amount_send - gatewayinfo($bit_gateway_send, "extra_fee");
+                $fee_text1 = gatewayinfo($bit_gateway_send, "extra_fee") . " " . gatewayinfo($bit_gateway_send, "currency");
+            }
+//            $amount = $bit_amount_send;
+//            $currency = $bit_currency_from;
+//            $fee_text = gatewayinfo($bit_gateway_send, "extra_fee");
+        }
+    } else {
+
+        if (gatewayinfo($bit_gateway_send, "include_fee") == "1") {
+
+            if (strpos(gatewayinfo($bit_gateway_send, "extra_fee"), '%') !== false) {
+                $amount = $bit_amount_send;
+                $explode = explode("%", gatewayinfo($bit_gateway_send, "extra_fee"));
+                $fee_percent = 100 + $explode[0];
+                $new_amount = ($amount * 100) / $fee_percent;
+                $new_amount = round($new_amount, 2);
+                $fee_amount = $amount - $new_amount;
+                $amount = $amount + $fee_amount;
+                $fee_text = gatewayinfo($bit_gateway_send, "extra_fee");
+            } else {
+                $amount = $bit_amount_send + gatewayinfo($bit_gateway_send, "extra_fee");
+                $fee_text = gatewayinfo($bit_gateway_send, "extra_fee") . " " . gatewayinfo($bit_gateway_send, "currency");
             }
             $currency = $bit_currency_from;
         } else {
@@ -125,204 +157,242 @@ if(!isValidEmail($bit_u_field_1)) {
         }
     }
 
-	$data['status'] = 'success';
-	if($receive == "Bank Transfer") {
-		$account_data = '<tr>
-							<td><span class="pull-left">'.$lang[your_name].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_2].'</span></td>
+    $data['status'] = 'success';
+    if ($receive == "Bank Transfer") {
+        $account_data = '<tr>
+							<td><span class="pull-left">' . $lang[your_name] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_2] . '</span></td>
 					</tr><tr>
-							<td><span class="pull-left">'.$lang[your_location].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_3].'</span></td>
+							<td><span class="pull-left">' . $lang[your_location] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_3] . '</span></td>
 					</tr><tr>
-							<td><span class="pull-left">'.$lang[your_bank_name].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_4].'</span></td>
+							<td><span class="pull-left">' . $lang[your_bank_name] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_4] . '</span></td>
 					</tr><tr>
-							<td><span class="pull-left">'.$lang[your_bank_account].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_5].'</span></td>
+							<td><span class="pull-left">' . $lang[your_bank_account] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_5] . '</span></td>
 					</tr><tr>
-							<td><span class="pull-left">'.$lang[your_bank_swift].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_6].'</span></td>
+							<td><span class="pull-left">' . $lang[your_bank_swift] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_6] . '</span></td>
 					</tr>';
-	}  elseif($receive == "Western Union" or $receive == "Moneygram") {
-		$account_data = '<tr>
-							<td><span class="pull-left">'.$lang[your_name].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_2].'</span></td>
+    } elseif ($receive == "Western Union" or $receive == "Moneygram") {
+        $account_data = '<tr>
+							<td><span class="pull-left">' . $lang[your_name] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_2] . '</span></td>
 					</tr><tr>
-							<td><span class="pull-left">'.$lang[your_location].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_3].'</span></td>
+							<td><span class="pull-left">' . $lang[your_location] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_3] . '</span></td>
 					</tr>';
-	} elseif($receive == "Bitcoin" or $receive == "Litecoin" or $receive == "Dogecoin" or $receive == "Dash" or $receive == "Peercoin" or $receive == "Ethereum") {
-		$account_data = '<tr>
-							<td><span class="pull-left">'.$lang[your].' '.$receive.' '.$lang[address].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_2].'</span></td>
+    } elseif ($receive == "Bitcoin" or $receive == "Litecoin" or $receive == "Dogecoin" or $receive == "Dash" or $receive == "Peercoin" or $receive == "Ethereum") {
+        $account_data = '<tr>
+							<td><span class="pull-left">' . $lang[your] . ' ' . $receive . ' ' . $lang[address] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_2] . '</span></td>
 					</tr>';
-	}elseif($receive == "Qiwi") {
+    } elseif ($receive == "Qiwi") {
         $account_data = '';
         $check = $db->query("SELECT * FROM bit_gateways WHERE name='$receive' and external_gateway='1'");
-        if($check->num_rows>0) {
+        if ($check->num_rows > 0) {
             $r = $check->fetch_assoc();
             $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' ORDER BY id");
-            if($fieldsquery->num_rows>0) {
-                $number = rand(1,10);
+            if ($fieldsquery->num_rows > 0) {
+                $number = rand(1, 10);
 
-                $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' AND field_number='$number'  ORDER BY id")  ;
-                if($fieldsquery->num_rows>0) {
-                    while($field = $fieldsquery->fetch_assoc()) {
+                $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' AND field_number='$number'  ORDER BY id");
+                if ($fieldsquery->num_rows > 0) {
+                    while ($field = $fieldsquery->fetch_assoc()) {
                         $field_number = $field['field_number'];
-                        $fild = 'u_field_'.$field_number;
+                        $fild = 'u_field_' . $field_number;
                         $ret = $row[$fild];
 
                         $account_data .= '<tr>
-							<td><span class="pull-left">'.$field[field_name].'</span></td>
-							<td><span class="pull-right">'.$ret .'</span></td>
+							<td><span class="pull-left">' . $field[field_name] . '</span></td>
+							<td><span class="pull-right">' . $ret . '
+							
+							
+							
+							
+							</span></td>
 					</tr>';
                     }
                 }
             }
         } else {
             $account_data = '<tr>
-							<td><span class="pull-left">'.$lang[your].' '.$receive.' '.$lang[account].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_2].'</span></td>
+							<td><span class="pull-left">' . $lang[your] . ' ' . $receive . ' ' . $lang[account] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_2] . '</span></td>
+					</tr>';
+        }
+    } else {
+        $account_data = '';
+        $check = $db->query("SELECT * FROM bit_gateways WHERE name='$receive' and external_gateway='1'");
+        if ($check->num_rows > 0) {
+            $r = $check->fetch_assoc();
+            $fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' ORDER BY id");
+            if ($fieldsquery->num_rows > 0) {
+                while ($field = $fieldsquery->fetch_assoc()) {
+                    $field_number = $field['field_number'] + 1;
+                    $fild = 'u_field_' . $field_number;
+                    $ret = $row[$fild];
+                    $account_data .= '<tr>
+							<td><span class="pull-left">' . $field[field_name] . '</span></td>
+							<td><span class="pull-right">' . $ret . '</span></td>
+					</tr>';
+                }
+            }
+        } else {
+            $account_data = '<tr>
+							<td><span class="pull-left">' . $lang[your] . ' ' . $receive . ' ' . $lang[account] . '</span></td>
+							<td><span class="pull-right">' . $row[u_field_2] . '</span></td>
 					</tr>';
         }
     }
-    else {
-		$account_data = '';
-		$check = $db->query("SELECT * FROM bit_gateways WHERE name='$receive' and external_gateway='1'");
-		if($check->num_rows>0) {
-			$r = $check->fetch_assoc();
-			$fieldsquery = $db->query("SELECT * FROM bit_gateways_fields WHERE gateway_id='$r[id]' ORDER BY id");
-			if($fieldsquery->num_rows>0) {
-				while($field = $fieldsquery->fetch_assoc()) {
-					$field_number = $field['field_number']+1;
-					$fild = 'u_field_'.$field_number;
-					$ret = $row[$fild];
-					$account_data .= '<tr>
-							<td><span class="pull-left">'.$field[field_name].'</span></td>
-							<td><span class="pull-right">'.$ret.'</span></td>
-					</tr>';
-				}
-			}
-		} else {
-		$account_data = '<tr>
-							<td><span class="pull-left">'.$lang[your].' '.$receive.' '.$lang[account].'</span></td>
-							<td><span class="pull-right">'.$row[u_field_2].'</span></td>
-					</tr>';
-		}
-	}
-	if(gatewayinfo($row['gateway_send'],"exchange_type") == "2" or gatewayinfo($row['gateway_send'],"exchange_type") == "3") {
-			$custom_msg = '	<tr>
-					<td colspan="2">'.$lang[exchange_was_manually].'</td>
+    if (gatewayinfo($row['gateway_send'], "exchange_type") == "2" or gatewayinfo($row['gateway_send'], "exchange_type") == "3") {
+        $custom_msg = '	<tr>
+					<td colspan="2">' . $lang[exchange_was_manually] . '</td>
 				</tr>';
-	} else { $custom_msg = ''; }
-	    if (gatewayinfo($bit_gateway_send,"show_qr")){
+    } else {
+        $custom_msg = '';
+    }
+    if (gatewayinfo($bit_gateway_send, "show_qr")) {
         $html_form = '<div id="bit_exchange_results"></div>
 			<div class="row">
 				<div class="col-md-12">
 					<div>
 									<table class="table table-striped">
 										<tr>
-											<td colspan="2"><h4>'.gatewayinfo($bit_gateway_send,"name").' '.gatewayinfo($bit_gateway_send,"currency").' <i class="fa fa-exchange"></i> '.gatewayinfo($bit_gateway_receive,"name").' '.gatewayinfo($bit_gateway_receive,"currency").'</h4></td>
+											<td colspan="2"><h4>' . gatewayinfo($bit_gateway_send, "name") . ' ' . gatewayinfo($bit_gateway_send, "currency") . ' <i class="fa fa-exchange"></i> ' . gatewayinfo($bit_gateway_receive, "name") . ' ' . gatewayinfo($bit_gateway_receive, "currency") . '</h4></td>
 										</tr>
-										'.$custom_msg.'
+										' . $custom_msg . '
 										<tr>
-											<td><span class="pull-left"><b>'.$lang[exchange_id].'</b></span></td>
-											<td><span class="pull-right"><b>'.$row[exchange_id].'</span></td>
-										</tr>
-										<tr>
-											<td><span class="pull-left">'.$lang[amount_send].'</span></td>
-											<td><span class="pull-right">'.$row[amount_send].' '.$bit_currency_from.'</span></td>
+											<td><span class="pull-left"><b>' . $lang[exchange_id] . '</b></span></td>
+											<td><span class="pull-right"><b>' . $row[exchange_id] . '</span></td>
 										</tr>
 										<tr>
-											<td><span class="pull-left">'.$lang[amount_receive].'</span></td>
-											<td><span class="pull-right">'.$row[amount_receive].' '.$bit_currency_to.'</span></td>
+											<td><span class="pull-left">' . $lang[amount_send] . '</span></td>
+											<td><span class="pull-right">' . $row[amount_send] . ' ' . $bit_currency_from . '</span></td>
 										</tr>
-										'.$account_data.'
 										<tr>
-											<td><span class="pull-left">'.$lang[your_email].'</span></td>
-											<td><span class="pull-right">'.$row[u_field_1].'</span></td>
+											<td><span class="pull-left">' . $lang[amount_receive] . '</span></td>
+											<td><span class="pull-right">' . $row[amount_receive] . ' ' . $bit_currency_to . '</span></td>
+										</tr>
+										' . $account_data . '
+										<tr>
+											<td><span class="pull-left">' . $lang[your_email] . '</span></td>
+											<td><span class="pull-right">' . $row[u_field_1] . '</span></td>
 										</tr>
 									</table>
 									<br>
 									<table class="table table-striped">
 										<tr>
-											<td><span class="pull-left">'.gatewayinfo($bit_gateway_send,"name").' '.$lang[fee].'</span></td>
-											<td><span class="pull-right">'.$fee_text.'</span></td>
+											<td><span class="pull-left">' . gatewayinfo($bit_gateway_send, "name") . ' ' . $lang[fee] . '</span></td>
+											<td><span class="pull-right">' . $fee_text . '</span></td>
 										</tr>
 										<tr>
-											<td><span class="pull-left">'.$lang[total_for_payment].'</span></td>
-											<td><span class="pull-right">'.$amount.' '.$currency.'</span></td>
+											<td><span class="pull-left">' . $lang[total_for_payment] . '</span></td>
+											<td><span class="pull-right">' . $amount . ' ' . $currency . '</span></td>
 										</tr>
 									</table>
-								<div>'. $r[qr_set] .'</div>
-								<div>'. $r[qr_address] .'</div>
-									<img src="https://chart.googleapis.com/chart?chs=225x225&chld=L|2&cht=qr&chl='.$r[qr_set].':'.$r[qr_address].'" alt="">
+								<div>' . $r[qr_set] . '</div>
+								<div>' . $r[qr_address] . '</div>
+									<img src="https://chart.googleapis.com/chart?chs=225x225&chld=L|2&cht=qr&chl=' . $r[qr_set] . ':' . $r[qr_address] . '" alt="">
 									<div id="timer"></div>
 									<div class="row">
 										<div class="col-sm-6 col-md-6 col-lg-6">
-											<button type="button" class="btn btn-block btn-primary" onclick="bit_make_exchange('.$row[id].');"><i class="fa fa-check"></i> '.$lang[btn_confirm_order].'</button>
+											<button type="button" class="btn btn-block btn-primary" onclick="bit_make_exchange(' . $row[id] . ');"><i class="fa fa-check"></i> ' . $lang[btn_confirm_order] . '</button>
 											<br>
 										</div>
 										<div class="col-sm-6 col-md-6 col-lg-6">
-											<button type="button" class="btn btn-danger btn-block" onclick="bit_cancel_exchange('.$row[id].');"><i class="fa fa-times"></i> '.$lang[btn_cancel_order].'</button>
+											<button type="button" class="btn btn-danger btn-block" onclick="bit_cancel_exchange(' . $row[id] . ');"><i class="fa fa-times"></i> ' . $lang[btn_cancel_order] . '</button>
 											<br>
 										</div>
 									</div>
 								</div>
 				</div>
-				
-			   
-				
-			   
-				 
 			</div>';
-    }else{
-            $html_form = '<div id="bit_exchange_results"></div>
+    } else {
+        $html_form = '<div id="bit_exchange_results"></div>
 			<div class="row">
 				<div class="col-md-12">
 					<div>
 									<table class="table table-striped">
 										<tr>
-											<td colspan="2"><h4>'.gatewayinfo($bit_gateway_send,"name").' '.gatewayinfo($bit_gateway_send,"currency").' <i class="fa fa-exchange"></i> '.gatewayinfo($bit_gateway_receive,"name").' '.gatewayinfo($bit_gateway_receive,"currency").'</h4></td>
+											<td colspan="2"><h4>' . gatewayinfo($bit_gateway_send, "name") . ' ' . gatewayinfo($bit_gateway_send, "currency") . ' <i class="fa fa-exchange"></i> ' . gatewayinfo($bit_gateway_receive, "name") . ' ' . gatewayinfo($bit_gateway_receive, "currency") . '</h4></td>
 										</tr>
-										'.$custom_msg.'
+										' . $custom_msg . '
 										<tr>
-											<td><span class="pull-left"><b>'.$lang[exchange_id].'</b></span></td>
-											<td><span class="pull-right"><b>'.$row[exchange_id].'</span></td>
-										</tr>
-										<tr>
-											<td><span class="pull-left">'.$lang[amount_send].'</span></td>
-											<td><span class="pull-right">'.$row[amount_send].' '.$bit_currency_from.'</span></td>
+											<td><span class="pull-left"><b>' . $lang[exchange_id] . '</b></span></td>
+											<td><span class="pull-right"><b>' . $row[exchange_id] . '</span></td>
 										</tr>
 										<tr>
-											<td><span class="pull-left">'.$lang[amount_receive].'</span></td>
-											<td><span class="pull-right">'.$row[amount_receive].' '.$bit_currency_to.'</span></td>
+											<td><span class="pull-left">' . $lang[amount_send] . '</span></td>
+											<td><span class="pull-right">' . $row[amount_send] . ' ' . $bit_currency_from . '</span></td>
 										</tr>
-										'.$account_data.'
 										<tr>
-											<td><span class="pull-left">'.$lang[your_email].'</span></td>
-											<td><span class="pull-right">'.$row[u_field_1].'</span></td>
+											<td><span class="pull-left">' . $lang[amount_receive] . '</span></td>
+											<td><span class="pull-right">';
+        if (gatewayinfo($bit_gateway_receive, "name") === 'Qiwi' || gatewayinfo($bit_gateway_send, "name") === 'Qiwi') {
+
+            if ($bit_u_field_2[0] . $bit_u_field_2[1] === '+7') {
+                $html_form .= $row[amount_receive] . ' ' . $bit_currency_to;
+            } else {
+
+                if (strpos(gatewayinfo($bit_gateway_send, "extra_fee"), '%') !== false) {
+                    $amount1 = $row[amount_receive];
+                    $explode = explode("%", gatewayinfo($bit_gateway_send, "extra_fee"));
+                    $fee_percent = 100 + $explode[0];
+                    $new_amount = ($amount1 * 100) / $fee_percent;
+                    $new_amount = round($new_amount, 2);
+                    $fee_amount = $amount1 - $new_amount;
+                    $amount1 = $amount1 - $fee_amount;
+                    $fee_text1 = gatewayinfo($bit_gateway_send, "extra_fee");
+                    $html_form .= $amount1 . ' ' . $bit_currency_to;
+                } else {
+                    $amount1 = $bit_amount_send - gatewayinfo($bit_gateway_send, "extra_fee");
+                    $fee_text1 = gatewayinfo($bit_gateway_send, "extra_fee") . " " . gatewayinfo($bit_gateway_send, "currency");
+
+                    $html_form .= $row[amount_receive] . ' ' . $bit_currency_to;
+
+                }
+//            $amount = $bit_amount_send;
+//            $currency = $bit_currency_from;
+//            $fee_text = gatewayinfo($bit_gateway_send, "extra_fee");
+            }
+        } else {
+            $html_form .= $row[amount_receive] . ' ' . $bit_currency_to;
+        }
+        $html_form .= '</span></td>
+										</tr>
+										' . $account_data . '
+										<tr>
+											<td><span class="pull-left">' . $lang[your_email] . '</span></td>
+											<td><span class="pull-right">' . $row[u_field_1] . '</span></td>
 										</tr>
 									</table>
 									<br>
 									<table class="table table-striped">
 										<tr>
-											<td><span class="pull-left">'.gatewayinfo($bit_gateway_send,"name").' '.$lang[fee].'</span></td>
-											<td><span class="pull-right">'.$fee_text.'</span></td>
+											<td><span class="pull-left">';
+        if (gatewayinfo($bit_gateway_receive, "name") === 'Qiwi' || gatewayinfo($bit_gateway_send, "name") === 'Qiwi') {
+            $html_form .= 'Комиссия перевода QIWI';
+        } else {
+            $html_form .= gatewayinfo($bit_gateway_send, "name") . ' ' . $lang[fee];
+        }
+        $html_form .= ' </span></td>
+											<td><span class="pull-right">' . $fee_text . '</span></td>
 										</tr>
 										<tr>
-											<td><span class="pull-left">'.$lang[total_for_payment].'</span></td>
-											<td><span class="pull-right">'.$amount.' '.$currency.'</span></td>
+											<td><span class="pull-left">' . $lang[total_for_payment] . ' </span></td>
+											<td><span class="pull-right">' . $amount . ' ' . $currency . '</span></td>
 										</tr>
 									</table>
 									<div id="timer"></div>
 									<div class="row">
 										<div class="col-sm-6 col-md-6 col-lg-6">
-											<button type="button" class="btn btn-block btn-primary" onclick="bit_make_exchange('.$row[id].');"><i class="fa fa-check"></i> '.$lang[btn_confirm_order].'</button>
+											<button type="button" class="btn btn-block btn-primary" onclick="bit_make_exchange(' . $row[id] . ');"><i class="fa fa-check"></i> ' . $lang[btn_confirm_order] . '</button>
 											<br>
 										</div>
 										<div class="col-sm-6 col-md-6 col-lg-6">
-											<button type="button" class="btn btn-danger btn-block" onclick="bit_cancel_exchange('.$row[id].');"><i class="fa fa-times"></i> '.$lang[btn_cancel_order].'</button>
+											<button type="button" class="btn btn-danger btn-block" onclick="bit_cancel_exchange(' . $row[id] . ');"><i class="fa fa-times"></i> ' . $lang[btn_cancel_order] . '</button>
 											<br>
 										</div>
 									</div>
@@ -332,7 +402,7 @@ if(!isValidEmail($bit_u_field_1)) {
     }
 
 
-	$data['msg'] = $html_form;
+    $data['msg'] = $html_form;
 }
 echo json_encode($data);
 ?>

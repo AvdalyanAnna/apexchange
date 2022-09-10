@@ -6,17 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1fcb539e-6cae-4410-9fc1-9d4b1994fa69" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/BitExchanger.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/BitExchanger.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/functions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/footer.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requests/bit_exchange_step_2.php" beforeDir="false" afterPath="$PROJECT_DIR$/requests/bit_exchange_step_2.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requests/bit_exchange_step_3.php" beforeDir="false" afterPath="$PROJECT_DIR$/requests/bit_exchange_step_3.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requests/bit_make_exchange.php" beforeDir="false" afterPath="$PROJECT_DIR$/requests/bit_make_exchange.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/sources/header.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/homepage.php" beforeDir="false" afterPath="$PROJECT_DIR$/sources/homepage.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +166,13 @@
       <workItem from="1661688209802" duration="6061000" />
       <workItem from="1662059575925" duration="2675000" />
       <workItem from="1662124041252" duration="2079000" />
-      <workItem from="1662547141528" duration="2304000" />
+      <workItem from="1662547141528" duration="4192000" />
+      <workItem from="1662559477658" duration="14000" />
+      <workItem from="1662628554881" duration="1142000" />
+      <workItem from="1662639781995" duration="18000" />
+      <workItem from="1662644153475" duration="2714000" />
+      <workItem from="1662670852611" duration="621000" />
+      <workItem from="1662732617792" duration="3101000" />
     </task>
     <servers />
   </component>
